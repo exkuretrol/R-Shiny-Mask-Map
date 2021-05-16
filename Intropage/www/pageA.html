@@ -1,0 +1,383 @@
+<h3>研究項目</h3>
+<div class="page-body">
+    <ol id="2d4229a4-e1f6-4097-bf69-401762f25a1f" class="numbered-list" start="1">
+		<li>各個藥局口罩剩餘數量的視覺化<p id="78cc3329-df44-4716-9fd3-563ead822e1b" class="">◾<mark
+					class="highlight-gray">可以從政府資料開放平台所提供的即時資料來取得</mark></p>
+		</li>
+	</ol>
+	<ol id="4ebc6d38-46bc-4f23-8cbd-05e2d239b40a" class="numbered-list" start="2">
+		<li>找出資料內沒有的藥局的營業時間<ul id="05e79691-5301-4ffd-9184-21702dfa3361" class="toggle">
+				<li>
+					<details>
+						<summary><strong>方法一、用Google Place API 從 Google Map上取得營業時間</strong></summary>
+						<p id="d79b1aab-6ceb-4f33-8544-4135a6d01812" class="">
+						</p>
+						<p id="e211208e-ddfe-4193-9acf-8b97d300c575" class="">首先要從 <a
+								href="https://developers.google.com/maps/documentation/places/web-service/overview">Google
+								Map Place API</a> 的 <a
+								href="https://developers.google.com/maps/documentation/places/web-service/search">Place
+								Search</a> 服務取得藥局的<code>place_id</code> ，要做到這件事，我們需要從API Request 輸入6個參數，分別是:
+						<div class="indented">
+							<ul id="17de489e-d1d4-4abf-86f9-00982e5987ad" class="bulleted-list">
+								<li><code>key</code> Google Map Place API key</li>
+							</ul>
+							<ul id="6697eba0-2246-4916-a1f3-d1ceeba8f072" class="bulleted-list">
+								<li><code>location</code> 想找到的目的地的 緯度/經度</li>
+							</ul>
+							<ul id="e3bbbafc-35de-416e-bc16-91dd7ff57781" class="bulleted-list">
+								<li><code>radius</code> 搜索半徑 (公尺)；除了指定location外，還要指定搜索半徑</li>
+							</ul>
+							<p id="d31d088c-198b-41c1-92ad-f82a5c02f3c4" class="">可選參數</p>
+							<ul id="5fb14988-4a3b-45f4-9aea-4eaf794b8118" class="bulleted-list">
+								<li><code>keyword</code> 一段用來搜尋的文字，像是OOO藥局</li>
+							</ul>
+							<ul id="1803808a-8c6b-4d7c-b029-1b0342b8327b" class="bulleted-list">
+								<li><code>type</code> Google Map 上的標的會做基本的分類，像是藥局 (pharmacy)、醫院 (hospital)
+									...等，詳細的分類可以從<a
+										href="https://developers.google.com/maps/documentation/places/web-service/supported_types?authuser=1">這裡</a>找到
+								</li>
+							</ul>
+							<ul id="c0504062-6d18-47a4-832e-d42310ab7b5d" class="bulleted-list">
+								<li><code>language</code> 返回的搜索結果語言，詳細的語言列表可以在<a
+										href="https://developers.google.com/maps/faq?authuser=1#languagesupport">這裡</a>找到
+								</li>
+							</ul>
+						</div>
+						</p>
+						<p id="0a4e4c58-6029-422d-af01-387de9ae74c7" class="">
+						</p>
+						<p id="e8ece369-9d87-4083-9f25-512ac8d6ddb4" class="">以離學校最近的藥局 <a
+								href="https://www.google.com/maps/place/%E5%8D%9A%E7%88%BE%E5%BA%B7%E7%94%9F%E6%B4%BB%E8%97%A5%E5%B1%80/@24.9898889,121.3443958,20.5z/data=!4m5!3m4!1s0x34681e864eb9dcb9:0x826d74485147731a!8m2!3d24.98989!4d121.3445606">博爾康生活藥局</a>
+							來當作範例</p>
+						<p id="f93055f4-595f-402d-8b58-9012b66a74f3" class="">
+						</p>
+						<div id="e5cc005b-3878-4053-88f2-1ff543e665ac" class="collection-content">
+							<h4 class="collection-title">parameters</h4>
+							<table class="collection-content">
+								<thead>
+									<tr>
+										<th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+													style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden"
+													class="typesTitle">
+													<path
+														d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z">
+													</path>
+												</svg></span>name</th>
+										<th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+													style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden"
+													class="typesText">
+													<path
+														d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z">
+													</path>
+												</svg></span>value</th>
+										<th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+													style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden"
+													class="typesText">
+													<path
+														d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z">
+													</path>
+												</svg></span>comment</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr id="ba33bf17-9cd2-452b-9799-bc61fd489338">
+										<td class="cell-title"><a
+												href="https://www.notion.so/key-ba33bf179cd2452b9799bc61fd489338">key</a>
+										</td>
+										<td class="cell-E:NS">YOUR_API_KEY</td>
+										<td class="cell-bjII"></td>
+									</tr>
+									<tr id="8a7c3306-4628-4d44-8e28-c0b351b325bb">
+										<td class="cell-title"><a
+												href="https://www.notion.so/location-8a7c330646284d448e28c0b351b325bb">location</a>
+										</td>
+										<td class="cell-E:NS">24.9898889,121.3443958</td>
+										<td class="cell-bjII">可以由<a
+												href="https://www.tgos.tw/tgos/Web/Address/TGOS_Address.aspx">TGOS門牌地址服務</a>獲得目的地的經緯度
+										</td>
+									</tr>
+									<tr id="28c62571-388e-4dc1-bfd7-c231f7575233">
+										<td class="cell-title"><a
+												href="https://www.notion.so/radius-28c62571388e4dc1bfd7c231f7575233">radius</a>
+										</td>
+										<td class="cell-E:NS">100</td>
+										<td class="cell-bjII">單位為公尺</td>
+									</tr>
+									<tr id="e8cdf292-55fc-49dc-a83d-10b0d117b04a">
+										<td class="cell-title"><a
+												href="https://www.notion.so/keyword-e8cdf29255fc49dca83d10b0d117b04a">keyword</a>
+										</td>
+										<td class="cell-E:NS">博爾康生活藥局</td>
+										<td class="cell-bjII"></td>
+									</tr>
+									<tr id="60717e26-70b9-4258-ac1b-c23214993fdd">
+										<td class="cell-title"><a
+												href="https://www.notion.so/type-60717e2670b94258ac1bc23214993fdd">type</a>
+										</td>
+										<td class="cell-E:NS">pharmarcy</td>
+										<td class="cell-bjII">藥局</td>
+									</tr>
+									<tr id="368346fd-e5be-43dd-bcf2-6f8866892c0a">
+										<td class="cell-title"><a
+												href="https://www.notion.so/language-368346fde5be43ddbcf26f8866892c0a">language</a>
+										</td>
+										<td class="cell-E:NS">zh-TW</td>
+										<td class="cell-bjII"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h3 id="797201a9-fc2a-47ac-ae99-9fd86965d3ba" class="">返回結果:</h3>
+						<pre id="d5affc74-df06-4f73-bf81-056f548c8953" class="code"><code>{
+&quot;html_attributions&quot;: [],
+&quot;results&quot;: [
+{
+&quot;business_status&quot;: &quot;OPERATIONAL&quot;,
+&quot;geometry&quot;: {
+&quot;location&quot;: {
+  &quot;lat&quot;: 24.98989,
+  &quot;lng&quot;: 121.3445606
+},
+&quot;viewport&quot;: {
+  &quot;northeast&quot;: {
+    &quot;lat&quot;: 24.99126617989272,
+    &quot;lng&quot;: 121.3459634298927
+  },
+  &quot;southwest&quot;: {
+    &quot;lat&quot;: 24.98856652010728,
+    &quot;lng&quot;: 121.3432637701073
+  }
+}
+},
+&quot;icon&quot;: &quot;https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/pharmacy-71.png&quot;,
+&quot;name&quot;: &quot;博爾康生活藥局&quot;,
+&quot;opening_hours&quot;: {
+&quot;open_now&quot;: true
+},
+&quot;photos&quot;: [
+{
+  &quot;height&quot;: 2322,
+  &quot;html_attributions&quot;: [
+    &quot;&lt;a href=\&quot;https://maps.google.com/maps/contrib/105769764143226863235\&quot;&gt;Allen Sue&lt;/a&gt;&quot;
+  ],
+  &quot;photo_reference&quot;: &quot;ATtYBwJ0jFOiMDbEnQAF5sPjVHmcrZGDw9l25muJC7ZuaAk3p9A_BMjosH1_0Hqr4_ebRJRsX-0F5HhYwGecFqiw033qTlPxQWDGNrz-h6m4t6BoUB0kTVuguBoCBC1dek_xuhOHJeuUcSY2vrwrCEyIQpyooBIIO01luxrepyI-dBYzcnGq&quot;,
+  &quot;width&quot;: 4128
+}
+],
+&quot;place_id&quot;: &quot;ChIJudy5ToYeaDQRGnNHUUh0bYI&quot;,
+&quot;plus_code&quot;: {
+&quot;compound_code&quot;: &quot;X8QV+XR 龜山區 桃園市&quot;,
+&quot;global_code&quot;: &quot;7QP3X8QV+XR&quot;
+},
+&quot;rating&quot;: 4.8,
+&quot;reference&quot;: &quot;ChIJudy5ToYeaDQRGnNHUUh0bYI&quot;,
+&quot;scope&quot;: &quot;GOOGLE&quot;,
+&quot;types&quot;: [
+&quot;pharmacy&quot;,
+&quot;health&quot;,
+&quot;point_of_interest&quot;,
+&quot;store&quot;,
+&quot;establishment&quot;
+],
+&quot;user_ratings_total&quot;: 100,
+&quot;vicinity&quot;: &quot;號, No. 250大同路龜山區&quot;
+}
+],
+&quot;status&quot;: &quot;OK&quot;
+}</code></pre>
+						<p id="8db940d7-f852-41b3-996d-be056412d240" class="">
+						</p>
+						<p id="19962890-8812-4771-974d-f6e488baa352" class="">接著再用 Place Detail
+							的服務取得營業時間，我們會需要3個參數，分別是:
+						<div class="indented">
+							<ul id="16ed7354-53f6-4779-92c2-adebb598fbfa" class="bulleted-list">
+								<li><code>key</code> Google Map Place API key</li>
+							</ul>
+							<ul id="9b76abc1-2127-4958-b48f-06f177ad0344" class="bulleted-list">
+								<li><code>fields</code> 要返回的欄位</li>
+							</ul>
+							<ul id="533836b5-9074-49ae-9dbc-89a8542dd55e" class="bulleted-list">
+								<li><code>place_id</code> 透過 Place Search 所得到的 <code>place_id</code></li>
+							</ul>
+						</div>
+						</p>
+						<p id="bc773118-782a-4d7f-a6f6-9dd9c59eb7b2" class="">
+						</p>
+						<div id="34a85952-75ed-4043-8d67-416d4bbe6261" class="collection-content">
+							<h4 class="collection-title">parameters</h4>
+							<table class="collection-content">
+								<thead>
+									<tr>
+										<th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+													style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden"
+													class="typesTitle">
+													<path
+														d="M7.73943662,8.6971831 C7.77640845,8.7834507 7.81338028,8.8943662 7.81338028,9.00528169 C7.81338028,9.49823944 7.40669014,9.89260563 6.91373239,9.89260563 C6.53169014,9.89260563 6.19894366,9.64612676 6.08802817,9.30105634 L5.75528169,8.33978873 L2.05809859,8.33978873 L1.72535211,9.30105634 C1.61443662,9.64612676 1.2693662,9.89260563 0.887323944,9.89260563 C0.394366197,9.89260563 0,9.49823944 0,9.00528169 C0,8.8943662 0.0246478873,8.7834507 0.0616197183,8.6971831 L2.46478873,2.48591549 C2.68661972,1.90669014 3.24119718,1.5 3.90669014,1.5 C4.55985915,1.5 5.12676056,1.90669014 5.34859155,2.48591549 L7.73943662,8.6971831 Z M2.60035211,6.82394366 L5.21302817,6.82394366 L3.90669014,3.10211268 L2.60035211,6.82394366 Z M11.3996479,3.70598592 C12.7552817,3.70598592 14,4.24823944 14,5.96126761 L14,9.07922535 C14,9.52288732 13.6549296,9.89260563 13.2112676,9.89260563 C12.8169014,9.89260563 12.471831,9.59683099 12.4225352,9.19014085 C12.028169,9.6584507 11.3257042,9.95422535 10.5492958,9.95422535 C9.60035211,9.95422535 8.47887324,9.31338028 8.47887324,7.98239437 C8.47887324,6.58978873 9.60035211,6.08450704 10.5492958,6.08450704 C11.3380282,6.08450704 12.040493,6.33098592 12.4348592,6.81161972 L12.4348592,5.98591549 C12.4348592,5.38204225 11.9172535,4.98767606 11.1285211,4.98767606 C10.6602113,4.98767606 10.2411972,5.11091549 9.80985915,5.38204225 C9.72359155,5.43133803 9.61267606,5.46830986 9.50176056,5.46830986 C9.18133803,5.46830986 8.91021127,5.1971831 8.91021127,4.86443662 C8.91021127,4.64260563 9.0334507,4.44542254 9.19366197,4.34683099 C9.87147887,3.90316901 10.6232394,3.70598592 11.3996479,3.70598592 Z M11.1778169,8.8943662 C11.6830986,8.8943662 12.1760563,8.72183099 12.4348592,8.37676056 L12.4348592,7.63732394 C12.1760563,7.29225352 11.6830986,7.11971831 11.1778169,7.11971831 C10.5616197,7.11971831 10.056338,7.45246479 10.056338,8.0193662 C10.056338,8.57394366 10.5616197,8.8943662 11.1778169,8.8943662 Z M0.65625,11.125 L13.34375,11.125 C13.7061869,11.125 14,11.4188131 14,11.78125 C14,12.1436869 13.7061869,12.4375 13.34375,12.4375 L0.65625,12.4375 C0.293813133,12.4375 4.43857149e-17,12.1436869 0,11.78125 C-4.43857149e-17,11.4188131 0.293813133,11.125 0.65625,11.125 Z">
+													</path>
+												</svg></span>Name</th>
+										<th><span class="icon property-icon"><svg viewBox="0 0 14 14"
+													style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden"
+													class="typesText">
+													<path
+														d="M7,4.56818 C7,4.29204 6.77614,4.06818 6.5,4.06818 L0.5,4.06818 C0.223858,4.06818 0,4.29204 0,4.56818 L0,5.61364 C0,5.88978 0.223858,6.11364 0.5,6.11364 L6.5,6.11364 C6.77614,6.11364 7,5.88978 7,5.61364 L7,4.56818 Z M0.5,1 C0.223858,1 0,1.223858 0,1.5 L0,2.54545 C0,2.8216 0.223858,3.04545 0.5,3.04545 L12.5,3.04545 C12.7761,3.04545 13,2.8216 13,2.54545 L13,1.5 C13,1.223858 12.7761,1 12.5,1 L0.5,1 Z M0,8.68182 C0,8.95796 0.223858,9.18182 0.5,9.18182 L11.5,9.18182 C11.7761,9.18182 12,8.95796 12,8.68182 L12,7.63636 C12,7.36022 11.7761,7.13636 11.5,7.13636 L0.5,7.13636 C0.223858,7.13636 0,7.36022 0,7.63636 L0,8.68182 Z M0,11.75 C0,12.0261 0.223858,12.25 0.5,12.25 L9.5,12.25 C9.77614,12.25 10,12.0261 10,11.75 L10,10.70455 C10,10.4284 9.77614,10.20455 9.5,10.20455 L0.5,10.20455 C0.223858,10.20455 0,10.4284 0,10.70455 L0,11.75 Z">
+													</path>
+												</svg></span>value</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr id="10c59760-825a-4c22-b731-3d4a0e91a48a">
+										<td class="cell-title"><a
+												href="https://www.notion.so/key-10c59760825a4c22b7313d4a0e91a48a">key</a>
+										</td>
+										<td class="cell-IQue">YOUR_API_KEY</td>
+									</tr>
+									<tr id="379c3bd2-55e7-4892-be0e-3be5a0a5df26">
+										<td class="cell-title"><a
+												href="https://www.notion.so/fields-379c3bd255e74892be0e3be5a0a5df26">fields</a>
+										</td>
+										<td class="cell-IQue">name,formatted_phone_number,opening_hours</td>
+									</tr>
+									<tr id="54f1b482-335d-475d-971d-5a7610437acb">
+										<td class="cell-title"><a
+												href="https://www.notion.so/place_id-54f1b482335d475d971d5a7610437acb">place_id</a>
+										</td>
+										<td class="cell-IQue">ChIJudy5ToYeaDQRGnNHUUh0bYI</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<h3 id="3f384686-f105-43c2-afef-7344276a7da1" class="">返回結果:</h3>
+						<pre id="0f0c6e78-84cf-4ac9-99ae-8f78a596c9bf" class="code"><code>{
+&quot;html_attributions&quot;: [],
+&quot;result&quot;: {
+&quot;formatted_phone_number&quot;: &quot;03 350 6588&quot;,
+&quot;name&quot;: &quot;博爾康生活藥局&quot;,
+&quot;opening_hours&quot;: {
+&quot;open_now&quot;: true,
+&quot;periods&quot;: [
+{
+  &quot;close&quot;: {
+    &quot;day&quot;: 0,
+    &quot;time&quot;: &quot;2200&quot;
+  },
+  &quot;open&quot;: {
+    &quot;day&quot;: 0,
+    &quot;time&quot;: &quot;0800&quot;
+  }
+},
+{
+  &quot;close&quot;: {
+    &quot;day&quot;: 1,
+    &quot;time&quot;: &quot;2200&quot;
+  },
+  &quot;open&quot;: {
+    &quot;day&quot;: 1,
+    &quot;time&quot;: &quot;0800&quot;
+  }
+},
+{
+  &quot;close&quot;: {
+    &quot;day&quot;: 2,
+    &quot;time&quot;: &quot;2200&quot;
+  },
+  &quot;open&quot;: {
+    &quot;day&quot;: 2,
+    &quot;time&quot;: &quot;0800&quot;
+  }
+},
+{
+  &quot;close&quot;: {
+    &quot;day&quot;: 3,
+    &quot;time&quot;: &quot;2200&quot;
+  },
+  &quot;open&quot;: {
+    &quot;day&quot;: 3,
+    &quot;time&quot;: &quot;0800&quot;
+  }
+},
+{
+  &quot;close&quot;: {
+    &quot;day&quot;: 4,
+    &quot;time&quot;: &quot;2200&quot;
+  },
+  &quot;open&quot;: {
+    &quot;day&quot;: 4,
+    &quot;time&quot;: &quot;0800&quot;
+  }
+},
+{
+  &quot;close&quot;: {
+    &quot;day&quot;: 5,
+    &quot;time&quot;: &quot;2200&quot;
+  },
+  &quot;open&quot;: {
+    &quot;day&quot;: 5,
+    &quot;time&quot;: &quot;0800&quot;
+  }
+},
+{
+  &quot;close&quot;: {
+    &quot;day&quot;: 6,
+    &quot;time&quot;: &quot;2200&quot;
+  },
+  &quot;open&quot;: {
+    &quot;day&quot;: 6,
+    &quot;time&quot;: &quot;0800&quot;
+  }
+}
+],
+&quot;weekday_text&quot;: [
+&quot;Monday: 8:00 AM – 10:00 PM&quot;,
+&quot;Tuesday: 8:00 AM – 10:00 PM&quot;,
+&quot;Wednesday: 8:00 AM – 10:00 PM&quot;,
+&quot;Thursday: 8:00 AM – 10:00 PM&quot;,
+&quot;Friday: 8:00 AM – 10:00 PM&quot;,
+&quot;Saturday: 8:00 AM – 10:00 PM&quot;,
+&quot;Sunday: 8:00 AM – 10:00 PM&quot;
+]
+}
+},
+&quot;status&quot;: &quot;OK&quot;
+}</code></pre>
+						<p id="ee8a221c-77f9-49ee-9fa8-548b7f7e9b7c" class="">
+						</p>
+					</details>
+				</li>
+			</ul>
+			<ul id="c8ff7846-a890-4acf-92ee-bcb789c60b59" class="toggle">
+				<li>
+					<details>
+						<summary><strong>方法二、一樣從政府衣料開放平台的 </strong><strong><a
+									href="https://www.notion.so/b79d4b6c85d94b87934499e7c3852ee7">全民健康保險特約院所固定服務時段
+									| 政府資料開放平臺</a></strong><strong> 取得資料</strong></summary>
+						<p id="4e4a9577-6096-43ae-b720-2638b350a8d7" class="">直接透過 R join 口罩剩餘數量的 data frame 即可。
+						</p>
+						<p id="4f2f681c-b956-4211-9dfc-6aa1500a9550" class="">
+						</p>
+						<figure id="bd21c79d-ea75-4480-a578-d4ca553266da" class="image"><a
+								href="./assets/A-1.png"><img
+									style="width:348px"
+									src="./assets/A-1.png" /></a>
+							<figcaption>maskdata.csv</figcaption>
+						</figure>
+						<p id="ceae9423-34b3-4aca-b073-974c70cc9db3" class="">
+						</p>
+						<figure id="f81d8aef-5746-4e33-b663-9cbbf821c56f" class="image"><a
+								href="./assets/A-2.png"><img
+									style="width:599px"
+									src="./assets/A-2.png" /></a>
+							<figcaption>全民健康保險特約院所固定服務時段.csv 在年欄位的右邊 NNNNNNN... 即為營業時間</figcaption>
+						</figure>
+					</details>
+				</li>
+			</ul>
+		</li>
+	</ol>
+	<ol id="a359efe6-a0c6-45cb-8708-1b0859045f7d" class="numbered-list" start="3">
+		<li>用GPS定位當前位置與附近的幾家藥局做時間預估<p id="1dd9a629-bab6-414a-90d9-49ecca32490b" class="">◾<mark
+					class="highlight-gray">透過瀏覽器要求GPS權限取得使用者位置後，在拿來與資料庫中的藥局位置比較。</mark></p>
+			<p id="ada8f196-9055-482e-aa24-f587c1fe33d6" class="">
+			</p>
+		</li>
+	</ol>
+</div>
