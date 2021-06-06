@@ -1,5 +1,5 @@
 # Sys_getenv("varname")
-dotenv::load_dot_env(file = "~/workspace/R-Shiny/.env")
+dotenv::load_dot_env(file = ".env")
 
 library(pool)
 library(dplyr)
