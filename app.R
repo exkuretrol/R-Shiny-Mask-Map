@@ -6,49 +6,10 @@ library(leaflet)
 library(leaflet.extras)
 library(readr)
 
-
-# prepare data ----
-maskdata_url <- "https://data.nhi.gov.tw/resource/mask/maskdata.csv"
-opening_time_data_url <- "https://data.nhi.gov.tw/resource/Opendata/全民健康保險特約院所固定服務時段.csv"
-opening_time_data_url <- URLencode(opening_time_data_url)
-
-maskdata <- read_csv(
-    maskdata_url,
-    col_types = cols(
-        醫事機構代碼 = col_character(),
-        醫事機構名稱 = col_character(),
-        醫事機構地址 = col_character(),
-        醫事機構電話 = col_character(),
-        成人口罩剩餘數 = col_integer(),
-        兒童口罩剩餘數 = col_integer(),
-        來源資料時間 = col_character()
-    )
-)
-
-opening_time_data <- read_csv(
-    opening_time_data_url, 
-    col_types = cols(
-        醫事機構代碼 = col_character(),
-        醫事機構名稱 = col_skip(),
-        業務組別 = col_skip(),
-        特約類別 = col_skip(),
-        看診年度 = col_skip(),
-        看診星期 = col_character(),
-        看診備註 = col_character(),
-        開業狀況 = col_integer(),
-        資料集更新時間 = col_character()
-    )
-)
-
-Institute_data <- left_join(maskdata, opening_time_data, by = "醫事機構代碼")
-Institute_data <- left_join(Institute_data, Institute_location)
-Institute_data <- Institute_data %>% 
-    mutate(City = substr(醫事機構地址, 1, 3))
-
-# library(leaflet.extras2)
-
 # comment when publish to shinynapps.io
 # setwd("~/workspace/R-Shiny/mask/")
+
+# prepare data ----
 source("./data/tidydata.R")
 
 # make preloader ----
@@ -65,7 +26,7 @@ ui <- dashboardPage(
         ),
         controlbarIcon = icon("filter"),
         tags$head(
-            tags$style(type = "text/css", "#map {height: calc(100vh - 80px) !important;}"),
+            tags$style(type = "text/css", "#map {height: calc(100vh - 90px) !important;}"),
             includeHTML("./Intropage/favicon.html")
             # includeCSS("./www/css/style.css")
         )
@@ -125,7 +86,6 @@ ui <- dashboardPage(
             ### tab1 Page content ----
             tabItem(
                 tabName = "tab1",
-                # use_waiter(),
                 leafletOutput(
                     outputId = "map"
                 )
@@ -242,31 +202,29 @@ server <- function(input, output, session) {
     
     ## output Map ----
     
-    # w <- Waiter$new(
-    #     id = c("map"), 
-    #     html = spin_solar()
-    # )
+    rv <- reactiveValues(
+        time = Sys.time(),
+        map_data = Institute_data
+    )
     
-    map_data <- reactive({
-        
-        # w$show()
+    observeEvent(input$drawer2, {
         
         if (input$drawer1 != "請選擇縣市" & !is.null(input$drawer2)) {
             
-            Institute_data %>%
+            rv$map_data <- Institute_data %>%
                 filter(substr(醫事機構地址, 1, 3) == input$drawer1)
             
         } else {
             
-            Institute_data
+            rv$map_data <- Institute_data
             
         }
         
-        # w$hide()
     })
     
+    # TODO: improve efficiency
     output$map <- renderLeaflet({
-        map_data <- map_data() %>%
+        map_data <- rv$map_data %>%
             filter(!is.na(x) | !is.na(y)) 
         
         popup_items <- paste0(
@@ -281,24 +239,19 @@ server <- function(input, output, session) {
         
         markerIcons <- awesomeIcons(
             icon = "plus",
-            iconColor = "black",
-            library = "ion",
+            iconColor = "white",
             markerColor = sapply(map_data$成人口罩剩餘數, function(x) {
                     if (x >= 200) { "green" }
-                    else if (x <200 & x >= 100) { "yellow" }
-                    else if (x <100 & x >= 50) { "orange" }
+                    else if (x < 200 & x >= 100) { "yellow" }
+                    else if (x < 100 & x >= 50) { "orange" }
                     else if (x < 50) { "red" } 
                 }
             )
         )
         
-        map_data %>%
+        m <- Institute_data %>%
+            filter(!is.na(x) | !is.na(y)) %>% 
             leaflet() %>%
-            setView(
-                lng = 120.97388194444444, 
-                lat = 23.97565,
-                zoom = 7
-            ) %>%
             addControlGPS(
                 options = gpsOptions(
                     position = "topleft",
@@ -317,6 +270,34 @@ server <- function(input, output, session) {
                 popup = popup_items,
                 icon = markerIcons
             )
+        
+        if (!is.null(input$drawer2)) {
+            
+            minLng <- min(as.double(map_data$x))
+            minLat <- min(as.double(map_data$y))
+            maxLng <- max(as.double(map_data$x))
+            maxLat <- max(as.double(map_data$y))
+            
+            m <- m %>%
+                fitBounds(
+                    lng1 = minLng,
+                    lat1 = minLat,
+                    lng2 = maxLng,
+                    lat2 = maxLat
+                )
+            
+        } else {
+            
+            m <- m %>% 
+                setView(
+                lng = 120.97388194444444,
+                lat = 23.97565,
+                zoom = 7
+            )
+            
+        }
+        
+        m
     })
 }
 
