@@ -5,12 +5,36 @@ library(waiter)
 library(leaflet)
 library(leaflet.extras)
 library(readr)
+library(plotly)
+library(pool)
+library(RMariaDB)
+library(dotenv)
+library(dbplyr)
 
 # comment when publish to shinynapps.io
 # setwd("~/workspace/R-Shiny/mask/")
 
+# MySQL connection ----
+dotenv::load_dot_env(file = "./.env")
+db_user <- Sys.getenv("db_user")
+db_password <- Sys.getenv("db_password")
+db_host <- Sys.getenv("db_host")
+db_port <- as.numeric(Sys.getenv("db_port"))
+db_name <- if(Sys.getenv("db_name") == "") "mask"
+
+pool <- dbPool(
+    drv = MariaDB(),
+    host = db_host,
+    username = db_user,
+    password = db_password,
+    dbname = db_name
+)
+onStop(function() {
+    poolClose(pool)
+})
+
 # prepare data ----
-source("./data/tidydata.R")
+source("./data/static_data.R")
 
 # make preloader ----
 preloader <- list(html = tagList(waiter::spin_google(), "讀取中..."), color = "#343a40")
@@ -26,7 +50,10 @@ ui <- dashboardPage(
         ),
         controlbarIcon = icon("filter"),
         tags$head(
-            tags$style(type = "text/css", "#map {height: calc(100vh - 90px) !important;}"),
+            tags$style(
+                type = "text/css", 
+                "#map {height: calc(100vh - 90px) !important;}"
+            ),
             includeHTML("./Intropage/favicon.html")
             # includeCSS("./www/css/style.css")
         )
@@ -203,8 +230,9 @@ server <- function(input, output, session) {
     ## output Map ----
     
     rv <- reactiveValues(
-        time = Sys.time(),
-        map_data = Institute_data
+        M_id = NULL,
+        map_data = Institute_data,
+        plot_data = NULL
     )
     
     observeEvent(input$drawer2, {
@@ -222,56 +250,11 @@ server <- function(input, output, session) {
         
     })
     
-    # TODO: improve efficiency
     output$map <- renderLeaflet({
-        map_data <- rv$map_data %>%
-            filter(!is.na(x) | !is.na(y)) 
-        
-        popup_items <- paste0(
-                tags$strong("醫事機構名稱: "), map_data$醫事機構名稱, tags$br(),
-                tags$strong("醫事機構地址: "), map_data$醫事機構地址, tags$br(),
-                tags$strong("醫事機構電話: "), map_data$醫事機構電話, tags$br(),
-                tags$strong("成人口罩剩餘數: "), map_data$成人口罩剩餘數, tags$br(),
-                tags$strong("兒童口罩剩餘數: "), map_data$兒童口罩剩餘數, tags$br(),
-                tags$strong("開業狀況: "), map_data$開業狀況, tags$br(),
-                tags$strong("來源資料時間: "), map_data$來源資料時間
-            ) %>% lapply(., HTML)
-        
-        markerIcons <- awesomeIcons(
-            icon = "plus",
-            iconColor = "white",
-            markerColor = sapply(map_data$成人口罩剩餘數, function(x) {
-                    if (x >= 200) { "green" }
-                    else if (x < 200 & x >= 100) { "yellow" }
-                    else if (x < 100 & x >= 50) { "orange" }
-                    else if (x < 50) { "red" } 
-                }
-            )
-        )
-        
-        m <- Institute_data %>%
-            filter(!is.na(x) | !is.na(y)) %>% 
-            leaflet() %>%
-            addControlGPS(
-                options = gpsOptions(
-                    position = "topleft",
-                    activate = TRUE,
-                    autoCenter = TRUE,
-                    maxZoom = 16,
-                    setView = TRUE
-                )
-            ) %>%
-            addTiles() %>%
-            addAwesomeMarkers(
-                lng = ~as.double(x), 
-                lat = ~as.double(y), 
-                clusterOptions = markerClusterOptions(),
-                group = ~醫事機構地址,
-                popup = popup_items,
-                icon = markerIcons
-            )
-        
+         
         if (!is.null(input$drawer2)) {
+            map_data <- rv$map_data %>%
+                filter(!is.na(x) | !is.na(y))
             
             minLng <- min(as.double(map_data$x))
             minLat <- min(as.double(map_data$y))
@@ -289,16 +272,141 @@ server <- function(input, output, session) {
         } else {
             
             m <- m %>% 
+                # center of Taiwan
                 setView(
-                lng = 120.97388194444444,
-                lat = 23.97565,
-                zoom = 7
-            )
+                    lng = 120.97388194444444,
+                    lat = 23.97565,
+                    zoom = 7
+                )
             
         }
         
         m
     })
+    
+    observe({
+        click <- input$map_marker_click
+        if (is.null(click)) {
+            return()
+        }
+        
+        selected_Institute <- Institute_data %>%
+            filter(醫事機構代碼 == click$id) 
+        
+        rv$plot_data <- NULL
+        rv$M_id <- click$id
+        
+        Popup <- paste0(
+            tags$strong("醫事機構地址: "), selected_Institute$醫事機構地址, tags$br(),
+            tags$strong("醫事機構電話: "), selected_Institute$醫事機構電話, tags$br(),
+            tags$strong("成人口罩剩餘數: "), selected_Institute$成人口罩剩餘數, tags$br(),
+            tags$strong("兒童口罩剩餘數: "), selected_Institute$兒童口罩剩餘數, tags$br(),
+            tags$strong("開業狀況: "), selected_Institute$開業狀況, tags$br(),
+            tags$strong("來源資料時間: "), selected_Institute$來源資料時間, tags$br(),
+            selected_Institute$看診星期,
+            collapse = ''
+        ) %>% HTML()
+        
+        showModal(
+            modalDialog(
+                title = selected_Institute$醫事機構名稱,
+                use_waitress(),
+                Popup,
+                easyClose = TRUE,
+                footer = tagList(
+                    actionButton(inputId = "plotMaskToggle", "顯示歷史資料"),
+                    modalButton(label = "確定")
+                )
+            )
+        )
+        
+    })
+    
+    waitress <- Waitress$new("#plotMask") # call the waitress
+    
+    observeEvent(input$plotMaskToggle, {
+        
+        rv$plot_data <- pool %>% 
+            tbl("masklog") %>%
+            filter(MedicalInstitute_M_id == local(rv$M_id))
+        
+        if (!is.null(rv$plot_data)) {
+            showModal(
+                modalDialog(
+                    title = "test",
+                    plotlyOutput("plotMask"),
+                    easyClose = TRUE,
+                    footer = NULL
+                )
+            )
+        }
+        
+    })
+    
+    output$plotMask <- renderPlotly({
+        
+        waitress$start(h6("讀取中..."))
+        
+        for(i in 1:10){
+            waitress$inc(10)
+            Sys.sleep(.3)
+        }
+        
+        fig <- rv$plot_data %>%
+            as_tibble() %>% 
+            plot_ly() %>%
+            add_lines(
+                x = ~m_datetime,
+                y = ~adult_mask,
+                name = "成人口罩",
+                mode = 'lines',
+                fill='tozeroy') %>%
+            add_lines(
+                x = ~m_datetime,
+                y = ~child_mask,
+                name = "兒童口罩",
+                fill='tozeroy') %>%
+            layout(
+                title = "30天內口罩數量圖",
+                xaxis = list(
+                    rangeselector = list(
+                        buttons = list(
+                            list(
+                                count = 1,
+                                label = "過去24小時",
+                                step = "day",
+                                stepmode = "backward"
+                            ),
+                            list(
+                                count = 3,
+                                label = "過去3天",
+                                step = "day",
+                                stepmode = "backward"
+                            ),
+                            list(
+                                count = 7,
+                                label = "過去1週",
+                                step = "day",
+                                stepmode = "backward"
+                            ),
+                            list(
+                                count = 14,
+                                label = "過去2週",
+                                step = "day",
+                                stepmode = "todate"
+                            ),
+                            list(step = "all")
+                        )
+                    ),
+                    rangeslider = list(type = "日期")
+                ),
+                yaxis = list(title = "口罩數量")
+            )
+        waitress$close()
+        fig
+    })
+    
+    
 }
 
 shinyApp(ui = ui, server = server)
