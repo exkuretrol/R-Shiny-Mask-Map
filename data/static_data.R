@@ -71,7 +71,9 @@ opening_time_data <- read_csv(
 Institute_data <- left_join(maskdata, opening_time_data, by = "醫事機構代碼")
 Institute_data <- left_join(Institute_data, Institute_location)
 Institute_data <- Institute_data %>%
-    mutate(City = substr(醫事機構地址, 1, 3))
+    mutate(City = substr(醫事機構地址, 1, 3)) %>% 
+    filter(!is.na(x) | !is.na(y))
+
 rm(
     Institute_location,
     maskdata,
@@ -92,7 +94,6 @@ markerIcons <- awesomeIcons(
 )
 
 m <- Institute_data %>%
-    filter(!is.na(x) | !is.na(y)) %>%
     leaflet() %>%
     addControlGPS(
         options = gpsOptions(
@@ -118,3 +119,48 @@ m <- Institute_data %>%
         opacity = 1,
         title = "成人口罩數目"
     )
+
+genHTMLTable <- function(OpeningHourVector) {
+    str <- OpeningHourVector
+    s <- sapply(
+        seq(
+            from=1, 
+            to=nchar(str), 
+            by=7
+        ), 
+        function(i) substr(str, i, i+6)
+    )
+    tags$table(
+        style = "width: 100%;",
+        tags$tr(
+            tags$th("營業時間"),
+            tags$th("一"),
+            tags$th("二"),
+            tags$th("三"),
+            tags$th("四"),
+            tags$th("五"),
+            tags$th("六"),
+            tags$th("日")
+        ),
+        lapply(X = 1:3, FUN = function(i) {
+            tags$tr(
+                lapply(X = 0:7, FUN = function(j) {
+                    ss <- strsplit(s[i], "")
+                    
+                    tags$td(
+                        if (j == 0) {
+                            if (i == 1 & j == 0) { "上午" }
+                            else if (i == 2 & j == 0) { "下午" }
+                            else if (i == 3 & j == 0) { "晚上" }
+                        }  else {
+                            if (ss[[1]][j] == "N") { tags$i(class = "fas fa-check-circle") } 
+                            else { tags$i(class = "fas fa-times-circle") }
+                        }
+                        
+                    )
+                })
+            )
+        })
+    )
+}
+

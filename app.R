@@ -11,7 +11,7 @@ library(RMariaDB)
 library(dotenv)
 library(dbplyr)
 
-# comment when publish to shinynapps.io
+# comment when publish to shinyapps.io
 # setwd("~/workspace/R-Shiny/mask/")
 
 # MySQL connection ----
@@ -155,7 +155,8 @@ ui <- dashboardPage(
                     })
                 )
             )
-        )
+        ),
+        use_waitress()
     ),
     
     ## dashboardControlbar ----
@@ -211,17 +212,26 @@ server <- function(input, output, session) {
     # oberveEvent when tab99 clicked, a pop-up dialog appear
     observeEvent(input$test, {
         if (input$test == "tab99") {
-            showModal(
-                modalDialog(
-                    title = "Thank you so much",
-                    "
-                    You clicked me! This event is the result of
-                    an input bound to the menu. By adding an id to the
-                    bs4SidebarMenu, input$id will give the currently selected
-                    tab. This is useful to trigger some events.
-                    ",
-                    easyClose = TRUE,
-                    footer = NULL
+            # showModal(
+            #     modalDialog(
+            #         title = "Thank you so much",
+            #         "
+            #         You clicked me! This event is the result of
+            #         an input bound to the menu. By adding an id to the
+            #         bs4SidebarMenu, input$id will give the currently selected
+            #         tab. This is useful to trigger some events.
+            #         ",
+            #         easyClose = TRUE,
+            #         footer = NULL
+            #     )
+            # )
+            addPopover(
+                id = "distPlot",
+                options = list(
+                    content = "Vivamus sagittis lacus vel augue laoreet rutrum faucibus.",
+                    title = "Server popover",
+                    placement = "bottom",
+                    trigger = "hover"
                 )
             )
         }
@@ -231,6 +241,7 @@ server <- function(input, output, session) {
     
     rv <- reactiveValues(
         M_id = NULL,
+        M_name = NULL,
         map_data = Institute_data,
         plot_data = NULL
     )
@@ -295,6 +306,7 @@ server <- function(input, output, session) {
         
         rv$plot_data <- NULL
         rv$M_id <- click$id
+        rv$M_name <- selected_Institute$醫事機構名稱
         
         Popup <- paste0(
             tags$strong("醫事機構地址: "), selected_Institute$醫事機構地址, tags$br(),
@@ -303,10 +315,11 @@ server <- function(input, output, session) {
             tags$strong("兒童口罩剩餘數: "), selected_Institute$兒童口罩剩餘數, tags$br(),
             tags$strong("開業狀況: "), selected_Institute$開業狀況, tags$br(),
             tags$strong("來源資料時間: "), selected_Institute$來源資料時間, tags$br(),
-            selected_Institute$看診星期,
+            genHTMLTable(selected_Institute$看診星期),
             collapse = ''
         ) %>% HTML()
         
+        # TODO: fix animation
         showModal(
             modalDialog(
                 title = selected_Institute$醫事機構名稱,
@@ -322,30 +335,39 @@ server <- function(input, output, session) {
         
     })
     
-    waitress <- Waitress$new("#plotMask") # call the waitress
-    
     observeEvent(input$plotMaskToggle, {
+        removeModal()
         
         rv$plot_data <- pool %>% 
             tbl("masklog") %>%
             filter(MedicalInstitute_M_id == local(rv$M_id))
         
-        if (!is.null(rv$plot_data)) {
+        waitress$start()
+        
+        # browser()
+        if (!is.null(rv$plot_data)) {  
             showModal(
                 modalDialog(
-                    title = "test",
+                    title = rv$M_name,
+                    size = "l",
                     plotlyOutput("plotMask"),
                     easyClose = TRUE,
-                    footer = NULL
+                    footer = tagList(
+                        modalButton(label = "確定")
+                    )
                 )
             )
         }
         
     })
     
+    waitress <- Waitress$new(
+            # selector = "#shiny-modal > div > div",
+            theme = "overlay-percent"
+        )
+    
+    ## plot Mask history ----
     output$plotMask <- renderPlotly({
-        
-        waitress$start(h6("讀取中..."))
         
         for(i in 1:10){
             waitress$inc(10)
@@ -353,22 +375,29 @@ server <- function(input, output, session) {
         }
         
         fig <- rv$plot_data %>%
-            as_tibble() %>% 
+            as_tibble() %>%
             plot_ly() %>%
             add_lines(
                 x = ~m_datetime,
                 y = ~adult_mask,
                 name = "成人口罩",
                 mode = 'lines',
-                fill='tozeroy') %>%
+                fill='tozeroy'
+                ) %>%
             add_lines(
                 x = ~m_datetime,
                 y = ~child_mask,
                 name = "兒童口罩",
-                fill='tozeroy') %>%
+                fill='tozeroy'
+                ) %>%
             layout(
-                title = "30天內口罩數量圖",
+                title = list(
+                    text = "30天內口罩數量圖",
+                    x = 1,
+                    y = "auto"
+                ),
                 xaxis = list(
+                    title = "時間",
                     rangeselector = list(
                         buttons = list(
                             list(
@@ -398,10 +427,19 @@ server <- function(input, output, session) {
                             list(step = "all")
                         )
                     ),
-                    rangeslider = list(type = "日期")
+                    rangeslider = list(
+                        thickness = "0.05"
+                    )
                 ),
-                yaxis = list(title = "口罩數量")
-            )
+                yaxis = list(title = "口罩數量"),
+                legend = list(
+                    orientation = "v",
+                    x = 0
+                ),
+                hovermode = "x"
+            ) %>%
+            config(displayModeBar = FALSE)
+        
         waitress$close()
         fig
     })
