@@ -202,6 +202,11 @@ server <- function(input, output, session) {
         )
     }
     
+    if (API_NO_DATA == 1) {
+        showModal(msgModel("目前的資料為歷史資料，因為API目前抓不到口罩剩餘數量"))
+        API_NO_DATA <- 0
+    }
+    
     ## Initial reactive values ----
     
     rv <- reactiveValues(

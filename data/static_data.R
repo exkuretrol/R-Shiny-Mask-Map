@@ -66,6 +66,10 @@ if (nrow(maskdata) < 1000) {
         )
     )
 
+} else {
+    
+    write_csv(maskdata, "./data/maskdata.csv")
+    
 }
 
 
@@ -86,22 +90,22 @@ opening_time_data <- read_csv(
 
 Institute_data <- left_join(maskdata, opening_time_data, by = "醫事機構代碼")
 Institute_data <- left_join(Institute_data, Institute_location)
-Institute_data %>%
-    filter(is.na(x) | is.na(y)) %>% 
-    saveRDS(., "./data/NA_df.rds")
+nadf <- Institute_data %>%
+    filter(is.na(x) | is.na(y))
+if (nrow(nadf) != 0) {
+    saveRDS(nadf, "./data/NA_df.rds")    
+}
 Institute_data <- Institute_data %>%
     mutate(City = substr(醫事機構地址, 1, 3)) %>% 
     filter(!is.na(x) | !is.na(y))
-
-Institute_data %>%
-    filter(is.na(x) | is.na(y)) %>% saveRDS()
 
 rm(
     Institute_location,
     maskdata,
     opening_time_data,
     maskdata_url,
-    opening_time_data_url
+    opening_time_data_url,
+    nadf
 )
 
 markerIcons <- awesomeIcons(
