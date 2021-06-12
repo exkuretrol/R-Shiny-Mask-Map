@@ -188,56 +188,21 @@ ui <- dashboardPage(
 
 # Server Section ----
 server <- function(input, output, session) {
-    observeEvent(input$drawer1, {
-        
-        if (input$drawer1 == "請選擇縣市") {
-            
-            x <- NULL
-            
-        } else {
-            x <- CityDist %>%
-                filter(City %in% input$drawer1) %>%
-                select(Dist)
-        }
-        
-        updateSelectInput(
-            session = session,
-            inputId = "drawer2",
-            label = "鄉/鎮/市/區:",
-            choices = x
-        )
-        
-    })
     
-    # oberveEvent when tab99 clicked, a pop-up dialog appear
-    observeEvent(input$test, {
-        if (input$test == "tab99") {
-            # showModal(
-            #     modalDialog(
-            #         title = "Thank you so much",
-            #         "
-            #         You clicked me! This event is the result of
-            #         an input bound to the menu. By adding an id to the
-            #         bs4SidebarMenu, input$id will give the currently selected
-            #         tab. This is useful to trigger some events.
-            #         ",
-            #         easyClose = TRUE,
-            #         footer = NULL
-            #     )
-            # )
-            addPopover(
-                id = "distPlot",
-                options = list(
-                    content = "Vivamus sagittis lacus vel augue laoreet rutrum faucibus.",
-                    title = "Server popover",
-                    placement = "bottom",
-                    trigger = "hover"
-                )
+    ## Failed Message Model ----
+    msgModel <- function(failed_msg = "") {
+        modalDialog(
+            title = "錯誤訊息",
+            size = "s",
+            div(tags$b(failed_msg, style = "color: red;")),
+            easyClose = TRUE,
+            footer = tagList(
+                modalButton(label = "確定")
             )
-        }
-    })
+        )
+    }
     
-    ## output Map ----
+    ## Initial reactive values ----
     
     rv <- reactiveValues(
         M_id = NULL,
@@ -246,39 +211,96 @@ server <- function(input, output, session) {
         plot_data = NULL
     )
     
-    observeEvent(input$drawer2, {
-        
-        if (input$drawer1 != "請選擇縣市" & !is.null(input$drawer2)) {
+    ## observe Event ----
+    observeEvent(input$drawer1, {
+
+        if (input$drawer1 == "請選擇縣市") {
+
+            x <- NULL
+
+        } else {
+
+            x <- CityDist %>%
+                filter(City %in% input$drawer1) %>%
+                select(Dist) %>%
+                add_row(Dist = "請選擇鄉/鎮/市/區", .before = 1)
             
             rv$map_data <- Institute_data %>%
-                filter(substr(醫事機構地址, 1, 3) == input$drawer1)
+                filter(City == input$drawer1)
             
-        } else {
-            
-            rv$map_data <- Institute_data
+            updateSelectInput(
+                session = session,
+                inputId = "drawer2",
+                label = "鄉/鎮/市/區:",
+                choices = x
+            )
             
         }
-        
+
+    })
+
+    observeEvent(input$drawer2, {
+
+        if (input$drawer1 != "請選擇縣市" & input$drawer2 == "請選擇鄉/鎮/市/區") {
+
+            rv$map_data <- Institute_data %>%
+                filter(City == input$drawer1)
+
+        }  else if (input$drawer1 != "請選擇縣市" & input$drawer2 != "請選擇鄉/鎮/市/區") {
+
+             
+            data <- Institute_data %>%
+                filter(City == input$drawer1)
+            
+            data <- data[grep(pattern = input$drawer2, x = data$醫事機構地址), ]
+
+            if (nrow(data) == 0) {
+                
+                showModal(msgModel("找不到該地區的藥局，或是沒有資料"))
+                return()
+                
+            } else {
+                
+                rv$map_data <- data
+                
+            }
+
+        } else {
+
+            rv$map_data <- Institute_data
+
+        }
+
     })
     
+    # draw map ----
     output$map <- renderLeaflet({
          
         if (!is.null(input$drawer2)) {
-            map_data <- rv$map_data %>%
-                filter(!is.na(x) | !is.na(y))
+            map_data <- rv$map_data
             
             minLng <- min(as.double(map_data$x))
             minLat <- min(as.double(map_data$y))
             maxLng <- max(as.double(map_data$x))
             maxLat <- max(as.double(map_data$y))
             
-            m <- m %>%
+            # when we only have one observation, use set View Instead.
+            if (minLng == maxLng & minLat == maxLat) {
+                
+                m <- m %>% setView(lng = minLng, lat = maxLat, zoom = 17)
+                
+            } else {
+                
+                m <- m %>%
                 fitBounds(
                     lng1 = minLng,
                     lat1 = minLat,
                     lng2 = maxLng,
-                    lat2 = maxLat
+                    lat2 = maxLat,
+                    options = list(maxZoom = 17)
                 )
+                
+            }
             
         } else {
             
@@ -295,6 +317,7 @@ server <- function(input, output, session) {
         m
     })
     
+    ## pop-up Dialog ----
     observe({
         click <- input$map_marker_click
         if (is.null(click)) {
@@ -313,13 +336,15 @@ server <- function(input, output, session) {
             tags$strong("醫事機構電話: "), selected_Institute$醫事機構電話, tags$br(),
             tags$strong("成人口罩剩餘數: "), selected_Institute$成人口罩剩餘數, tags$br(),
             tags$strong("兒童口罩剩餘數: "), selected_Institute$兒童口罩剩餘數, tags$br(),
-            tags$strong("開業狀況: "), selected_Institute$開業狀況, tags$br(),
-            tags$strong("來源資料時間: "), selected_Institute$來源資料時間, tags$br(),
+            tags$strong("開業狀況: "), if (!is.na(selected_Institute$開業狀況)) {if (selected_Institute$開業狀況 == 0) "正常營業" else "暫停營業"} else { "" }, tags$br(),
+            tags$strong("看診備註: "), selected_Institute$看診備註,
+            tags$br(),
             genHTMLTable(selected_Institute$看診星期),
+            p("來源資料時間: ", selected_Institute$來源資料時間, style = "text-align: right; color: lightslategray;"),
+            tags$br(),
             collapse = ''
         ) %>% HTML()
-        
-        # TODO: fix animation
+
         showModal(
             modalDialog(
                 title = selected_Institute$醫事機構名稱,
@@ -344,7 +369,6 @@ server <- function(input, output, session) {
         
         waitress$start()
         
-        # browser()
         if (!is.null(rv$plot_data)) {  
             showModal(
                 modalDialog(
@@ -361,6 +385,7 @@ server <- function(input, output, session) {
         
     })
     
+    # css selector not work, dunno why
     waitress <- Waitress$new(
             # selector = "#shiny-modal > div > div",
             theme = "overlay-percent"
