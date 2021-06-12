@@ -52,7 +52,8 @@ ui <- dashboardPage(
         tags$head(
             tags$style(
                 type = "text/css", 
-                "#map {height: calc(100vh - 90px) !important;}"
+                "#map {height: calc(100vh - 90px) !important;}",
+                "#shiny-modal-wrapper {overflow: hidden;}"
             ),
             includeHTML("./Intropage/favicon.html")
             # includeCSS("./www/css/style.css")
@@ -203,29 +204,36 @@ server <- function(input, output, session) {
     }
     
     if (API_NO_DATA == 1) {
-        showModal(msgModel("目前的資料為歷史資料，因為API目前抓不到口罩剩餘數量"))
+        showModal(
+            msgModel(
+                "目前的資料為歷史資料，因為API目前抓不到口罩剩餘數量；此錯誤通常是禮拜日才會發生。"
+            )
+        )
         API_NO_DATA <- 0
     }
     
     ## Initial reactive values ----
-    
     rv <- reactiveValues(
         M_id = NULL,
         M_name = NULL,
         map_data = Institute_data,
         plot_data = NULL,
-        update = FALSE
+        last_City = NULL,
+        last_Dist = NULL,
+        isLocated = FALSE,
+        gpsLng = NULL,
+        gpsLat = NULL
     )
     
     ## observe Event ----
     observeEvent(input$drawer1, {
         
         if (input$drawer1 == "請選擇縣市") {
-
+            
             x <- NULL
-
+            
         } else {
-
+            
             x <- CityDist %>%
                 filter(City %in% input$drawer1) %>%
                 select(Dist) %>%
@@ -237,25 +245,33 @@ server <- function(input, output, session) {
                 label = "鄉/鎮/市/區:",
                 choices = x
             )
-            # TODO: did not update when select drawer1 twice.
+            
+            if (rv$last_City != input$drawer1 & rv$last_Dist == "請選擇鄉/鎮/市/區") {
+                
+                rv$map_data <- Institute_data %>%
+                    filter(City == input$drawer1) 
+                
+            }
+            
         }    
+        rv$last_City <- input$drawer1
     })
-
+    
     observeEvent(input$drawer2, {
-
-        if (input$drawer1 != "請選擇縣市" & input$drawer2 == "請選擇鄉/鎮/市/區") {
         
+        if (input$drawer1 != "請選擇縣市" & input$drawer2 == "請選擇鄉/鎮/市/區") {
+            
             rv$map_data <- Institute_data %>%
                 filter(City == input$drawer1)
-                
+            
         }  else if (input$drawer1 != "請選擇縣市" & input$drawer2 != "請選擇鄉/鎮/市/區") {
-
-             
+            
+            
             data <- Institute_data %>%
                 filter(City == input$drawer1)
             
             data <- data[grep(pattern = input$drawer2, x = data$醫事機構地址), ]
-
+            
             if (nrow(data) == 0) {
                 
                 showModal(msgModel("找不到該地區的藥局，或是沒有資料"))
@@ -268,17 +284,16 @@ server <- function(input, output, session) {
             }
             
         } else {
-
+            
             rv$map_data <- Institute_data
-
+            
         }
-        last_Dist <- input$drawer2
-
+        rv$last_Dist <- input$drawer2
     })
     
     # draw map ----
     output$map <- renderLeaflet({
-         
+        
         if (!is.null(input$drawer2)) {
             map_data <- rv$map_data
             
@@ -295,13 +310,13 @@ server <- function(input, output, session) {
             } else {
                 
                 m <- m %>%
-                fitBounds(
-                    lng1 = minLng,
-                    lat1 = minLat,
-                    lng2 = maxLng,
-                    lat2 = maxLat,
-                    options = list(maxZoom = 17)
-                )
+                    fitBounds(
+                        lng1 = minLng,
+                        lat1 = minLat,
+                        lng2 = maxLng,
+                        lat2 = maxLat,
+                        options = list(maxZoom = 17)
+                    )
                 
             }
             
@@ -320,6 +335,14 @@ server <- function(input, output, session) {
         m
     })
     
+    # observe when user is Located, save coordinates.
+    observe({
+        x <- input$map_gps_located
+        if (!is.null(x)) { rv$isLocated <- TRUE }
+        rv$gpsLat <- x$coordinates[1]
+        rv$gpsLng <- x$coordinates[2]
+    })
+    
     ## pop-up Dialog ----
     observe({
         click <- input$map_marker_click
@@ -334,6 +357,16 @@ server <- function(input, output, session) {
         rv$M_id <- click$id
         rv$M_name <- selected_Institute$醫事機構名稱
         
+        if (rv$isLocated) {
+            url <- paste0(
+                "https://www.google.com/maps/dir/?api=1&origin=", 
+                rv$gpsLat, ",", rv$gpsLng, 
+                "&destination=",selected_Institute$y, ",", selected_Institute$x,
+                collapse = ''
+            )
+            url <- URLencode(url)
+        }
+        
         Popup <- paste0(
             tags$strong("醫事機構地址: "), selected_Institute$醫事機構地址, tags$br(),
             tags$strong("醫事機構電話: "), selected_Institute$醫事機構電話, tags$br(),
@@ -347,7 +380,8 @@ server <- function(input, output, session) {
             tags$br(),
             collapse = ''
         ) %>% HTML()
-
+        
+        
         showModal(
             modalDialog(
                 title = selected_Institute$醫事機構名稱,
@@ -355,6 +389,7 @@ server <- function(input, output, session) {
                 Popup,
                 easyClose = TRUE,
                 footer = tagList(
+                    if (rv$isLocated) tags$a(tags$button(icon("directions"), "規劃路線", class = "btn btn-default"), href = url),
                     actionButton(inputId = "plotMaskToggle", "顯示歷史資料"),
                     modalButton(label = "確定")
                 )
@@ -390,9 +425,9 @@ server <- function(input, output, session) {
     
     # css selector not work, dunno why
     waitress <- Waitress$new(
-            # selector = "#shiny-modal > div > div",
-            theme = "overlay-percent"
-        )
+        # selector = "#shiny-modal > div > div",
+        theme = "overlay-percent"
+    )
     
     ## plot Mask history ----
     output$plotMask <- renderPlotly({
@@ -411,13 +446,13 @@ server <- function(input, output, session) {
                 name = "成人口罩",
                 mode = 'lines',
                 fill='tozeroy'
-                ) %>%
+            ) %>%
             add_lines(
                 x = ~m_datetime,
                 y = ~child_mask,
                 name = "兒童口罩",
                 fill='tozeroy'
-                ) %>%
+            ) %>%
             layout(
                 title = list(
                     text = "30天內口罩數量圖",
