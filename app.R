@@ -237,11 +237,7 @@ server <- function(input, output, session) {
                 label = "鄉/鎮/市/區:",
                 choices = x
             )
-            if (rv$update) {
-                rv$map_data <- Institute_data %>%
-                    filter(City == input$drawer1)
-                rv$update <- FALSE
-            }
+            # TODO: did not update when select drawer1 twice.
         }    
     })
 
@@ -252,7 +248,6 @@ server <- function(input, output, session) {
             rv$map_data <- Institute_data %>%
                 filter(City == input$drawer1)
                 
-            rv$update <- TRUE
         }  else if (input$drawer1 != "請選擇縣市" & input$drawer2 != "請選擇鄉/鎮/市/區") {
 
              
@@ -271,7 +266,7 @@ server <- function(input, output, session) {
                 rv$map_data <- data
                 
             }
-
+            
         } else {
 
             rv$map_data <- Institute_data
