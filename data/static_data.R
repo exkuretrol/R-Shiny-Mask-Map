@@ -16,7 +16,6 @@ library(dplyr)
 # saveRDS(CityDist, "./data/CityDist.rds")
 
 # TODO: add error message
-API_NO_DATA <- 0
 CityDist <- readRDS("./data/CityDist.rds")
 
 drawer1_level <- CityDist %>%

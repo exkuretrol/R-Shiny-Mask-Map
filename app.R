@@ -10,6 +10,7 @@ library(pool)
 library(RMariaDB)
 library(dotenv)
 library(dbplyr)
+library(rintrojs)
 
 # comment when publish to shinyapps.io
 # setwd("~/workspace/R-Shiny/mask/")
@@ -53,10 +54,23 @@ ui <- dashboardPage(
             tags$style(
                 type = "text/css", 
                 "#map {height: calc(100vh - 90px) !important;}",
-                "#shiny-modal-wrapper {overflow: hidden;}"
+                "#shiny-modal-wrapper {overflow: hidden;}",
+                "#helpBtn {background-color: rgba(0, 0, 0, 0); border: none;}",
+                "body > div.wrapper > div.content-wrapper > section {padding: 0px !important;}"
             ),
             includeHTML("./Intropage/favicon.html")
             # includeCSS("./www/css/style.css")
+        ),
+        
+        # custom help buttom
+        tags$ul(
+            class = "navbar-nav",
+            tags$li(
+                class = "nav-item",
+                actionButton(
+                    inputId = "helpBtn", label = "幫助", icon = icon("life-ring")
+                )
+            )
         )
     ),
     ## dashboardSidebar ----
@@ -162,6 +176,7 @@ ui <- dashboardPage(
     
     ## dashboardControlbar ----
     controlbar = dashboardControlbar(
+        introjsUI(),
         div(
             selectInput(
                 inputId = "drawer1",
@@ -181,7 +196,7 @@ ui <- dashboardPage(
         id = "controlbar",
         collapsed = FALSE,
         skin = "light",
-        pinned = FALSE
+        pinned = TRUE
     ),
     title = "藥局 & 口罩資訊地圖",
     preloader = preloader
@@ -190,6 +205,62 @@ ui <- dashboardPage(
 # Server Section ----
 server <- function(input, output, session) {
     
+    ## Introjs ----
+    steps <- reactive(
+        data.frame(
+            title = c("導覽"),
+            element = c(
+                NA, 
+                
+                # filter
+                "body > div.wrapper > nav > ul.navbar-nav.ml-auto.navbar-right > li",
+                
+                # drawer1
+                "#controlbarTitle > div.os-padding > div > div > div > div.form-group.shiny-input-container", 
+                
+                # control bar pin
+                "#controlbarPin",
+                
+                # whole map
+                "#map", 
+                
+                # map pin(not work :c)
+                "#map", 
+                
+                # gps button
+                "#map > div.leaflet-control-container > div.leaflet-bottom.leaflet-left > div > a",
+                
+                NA
+            ),
+            intro = c(
+                "你好~ 你剛剛點擊的按鈕是導覽按鈕😋",
+                "這邊你可以控制整個篩選介面的開關👀",
+                "然後，這裡有一個下拉式選單，可以讓你篩選縣市、鄉鎮市區，然後自動切換地圖到該區域🤔",
+                "這個圖釘📌可以控制整個篩選介面要不要固定",
+                "中間這塊是用 leaflet.js 做的地圖，右上角有簡單的圖例，會根據口罩剩餘數量把地圖圖釘上色🟢",
+                "地圖上的圖標📍其實是可以點的，待會可以試試。",
+                "最後，使用這個定位按鈕，當你點開地圖上的圖釘時，會多出一個按鈕可以自動開啟 Google Map 規劃路線🎯。",
+                "以上 👍"
+            ),
+            position = c(
+                NA, "bottom", "left", "left", NA, "left", "top", NA
+            )
+        )
+    )
+    
+    observeEvent(input$helpBtn,{
+        introjs(
+            session,
+            options = list(
+                steps = steps(),
+                nextLabel = "好👌",
+                prevLabel = "等等"
+            )
+        )
+        
+    })
+    
+        
     ## Failed Message Model ----
     msgModel <- function(failed_msg = "") {
         modalDialog(
@@ -201,15 +272,6 @@ server <- function(input, output, session) {
                 modalButton(label = "確定")
             )
         )
-    }
-    
-    if (API_NO_DATA == 1) {
-        showModal(
-            msgModel(
-                "目前的資料為歷史資料，因為API目前抓不到口罩剩餘數量；此錯誤通常是禮拜日才會發生。"
-            )
-        )
-        API_NO_DATA <- 0
     }
     
     ## Initial reactive values ----
@@ -348,6 +410,20 @@ server <- function(input, output, session) {
         click <- input$map_marker_click
         if (is.null(click)) {
             return()
+        }
+        
+        # pop up message at least once.
+        if (exists("API_NO_DATA")) {
+            if (API_NO_DATA == 1) {
+                showModal(
+                    msgModel(
+                        "目前的資料為歷史資料，因為API目前抓不到口罩剩餘數量；此錯誤通常是禮拜日才會發生。"
+                    )
+                )
+            # remove global variable API_NO_DATA.
+            rm(API_NO_DATA, pos = ".GlobalEnv")
+            return()
+            }
         }
         
         selected_Institute <- Institute_data %>%
