@@ -56,8 +56,7 @@ ui <- dashboardPage(
                 "#notionDiv {top: 57px; left: 75px; right: 0px; bottom:0px; position: absolute;}",
                 "#notionDiv iframe {width: 100%; height: 100%; border: none;}"
             ),
-            includeHTML("./Intropage/favicon.html")
-            # includeCSS("./www/css/style.css")
+            includeHTML("./www/favicon_io/favicon.html")
         ),
 
         # custom help buttom
@@ -259,7 +258,12 @@ server <- function(input, output, session) {
                 "中間這塊是用 leaflet.js 做的地圖，右上角有簡單的圖例，會根據口罩剩餘數量把地圖圖釘上色🟢",
                 "地圖上的圖標📍其實是可以點的，待會可以試試。",
                 "最後，使用這個定位按鈕，當你點開地圖上的圖釘時，會多出一個按鈕可以自動開啟 Google Map 規劃路線🎯。",
-                paste0("以上 👍", tags$br(), tags$a("Github 原始碼", href = ""), collapse = "")
+                paste0(
+                    "以上 👍", 
+                    tags$br(), tags$a("Github 原始碼", href = "https://github.com/exkuretrol/R-Shiny-Mask-Map"), 
+                    tags$br(), tags$a("Notion.so", href = "https://www.notion.so/a66783b1f1c8449ab7c2b7065967f64d"), 
+                    collapse = ""
+                )
             ),
             position = c(
                 NA, "bottom", "left", "left", NA, "left", "top", NA
