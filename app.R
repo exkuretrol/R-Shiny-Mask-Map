@@ -89,7 +89,6 @@ ui <- dashboardPage(
                 text = "研究項目",
                 icon = icon("pen"),
                 startExpanded = FALSE,
-                
                 menuSubItem(
                     text = "陳家瑋",
                     tabName = "tab2_1",
@@ -118,7 +117,7 @@ ui <- dashboardPage(
             )
         ),
         # customArea = fluidPage(
-        #     "Custom Area Here!"
+        # "Custom Area Here!"
         # ),
         skin = "light",
         collapsed = TRUE,
@@ -135,7 +134,7 @@ ui <- dashboardPage(
                     outputId = "map"
                 )
             ),
-            
+
             ### tab2_0 Page content ----
             tabItem(
                 tabName = "tab2_0",
@@ -144,7 +143,7 @@ ui <- dashboardPage(
                     tags$iframe(src = "./notion/前言 95ba831cffea40029064a1b1b14fd188.html")
                 )
             ),
-            
+
             ### tab2_1 Page content ----
             tabItem(
                 tabName = "tab2_1",
@@ -259,9 +258,9 @@ server <- function(input, output, session) {
                 "地圖上的圖標📍其實是可以點的，待會可以試試。",
                 "最後，使用這個定位按鈕，當你點開地圖上的圖釘時，會多出一個按鈕可以自動開啟 Google Map 規劃路線🎯。",
                 paste0(
-                    "以上 👍", 
-                    tags$br(), tags$a("Github 原始碼", href = "https://github.com/exkuretrol/R-Shiny-Mask-Map"), 
-                    tags$br(), tags$a("Notion.so", href = "https://www.notion.so/a66783b1f1c8449ab7c2b7065967f64d"), 
+                    "以上 👍",
+                    tags$br(), tags$a("Github 原始碼", href = "https://github.com/exkuretrol/R-Shiny-Mask-Map"),
+                    tags$br(), tags$a("Notion.so", href = "https://www.notion.so/a66783b1f1c8449ab7c2b7065967f64d"),
                     collapse = ""
                 )
             ),
@@ -467,11 +466,11 @@ server <- function(input, output, session) {
                     if (rv$isLocated) {
                         tags$a(
                             tags$button(
-                                icon("directions"), 
-                                "規劃路線", 
+                                icon("directions"),
+                                "規劃路線",
                                 class = "btn btn-default"
-                            ), 
-                            href = url, 
+                            ),
+                            href = url,
                             target = "_blank"
                         )
                     },
@@ -580,7 +579,7 @@ server <- function(input, output, session) {
                 legend = list(
                     orientation = "v",
                     x = 0,
-                    bgcolor = 'rgba(0, 0, 0, 0)'
+                    bgcolor = "rgba(0, 0, 0, 0)"
                 ),
                 hovermode = "x"
             ) %>%
