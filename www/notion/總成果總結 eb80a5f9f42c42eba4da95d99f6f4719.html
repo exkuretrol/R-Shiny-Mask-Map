@@ -1,0 +1,656 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>總成果總結</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="eb80a5f9-f42c-42eb-a4da-95d99f6f4719" class="page sans"><header><h1 class="page-title">總成果總結</h1><table class="properties"><tbody><tr class="property-row property-row-person"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesPerson"><path d="M9.625,10.8465 C8.91187,10.2891 8.12088,9.926 7,9.26013 L7,8.71938 C7.21175,8.47612 7.392,8.176 7.53813,7.83213 C7.94587,7.7315 8.3125,7.33425 8.3125,7 C8.3125,6.51788 8.1095,6.32713 7.8715,6.17137 C7.8715,6.15562 7.875,6.14162 7.875,6.125 C7.875,5.41362 7.4375,3.5 5.25,3.5 C3.0625,3.5 2.625,5.4145 2.625,6.125 C2.625,6.14162 2.6285,6.15562 2.6285,6.17137 C2.3905,6.32713 2.1875,6.51788 2.1875,7 C2.1875,7.33425 2.55413,7.7315 2.96187,7.833 C3.108,8.176 3.28825,8.47612 3.5,8.71938 L3.5,9.26013 C2.37912,9.92513 1.58812,10.2882 0.875,10.8465 C0.041125,11.4984 0,12.4688 0,14 L10.5,14 C10.5,12.4688 10.4589,11.4984 9.625,10.8465 Z M13.125,7.3465 C12.4119,6.78912 11.6209,6.426 10.5,5.76013 L10.5,5.21938 C10.7118,4.97613 10.892,4.676 11.0381,4.33213 C11.4459,4.2315 11.8125,3.83425 11.8125,3.5 C11.8125,3.01787 11.6095,2.82713 11.3715,2.67138 C11.3715,2.65562 11.375,2.64162 11.375,2.625 C11.375,1.91363 10.9375,0 8.75,0 C6.5625,0 6.125,1.9145 6.125,2.625 C6.125,2.64162 6.1285,2.65562 6.1285,2.67138 C6.11188,2.68275 6.09787,2.69588 6.08125,2.70725 C7.83212,3.066 8.59688,4.54825 8.72813,5.74787 C8.97575,6.00863 9.1875,6.39625 9.1875,7 C9.1875,7.60288 8.771,8.20312 8.18388,8.51462 C8.127,8.624 8.06662,8.729 8.00275,8.82962 C8.155,8.91537 8.30025,8.99675 8.44025,9.07463 C9.08075,9.4325 9.63375,9.74137 10.164,10.1561 C10.3022,10.2638 10.4204,10.3801 10.5289,10.4991 L14,10.4991 C14,8.96875 13.9589,7.99837 13.125,7.3465 Z"></path></svg></span>Author</th><td><span class="user"><img src="https://lh5.googleusercontent.com/-CQ0BEB0JMpk/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnitaoC2b-5c0zJejy5fLlfinAohw/photo.jpg" class="icon user-icon"/>08170893 08170893</span><span class="user"><span class="icon text-icon user-icon"><span class="user-icon-inner">0</span></span>08170396 08170396</span><span class="user"><img src="https://lh5.googleusercontent.com/-46b2FaGwNXI/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclw2iwYSzOR9ATL5ZyT1OVbdOnhSw/photo.jpg" class="icon user-icon"/>家瑋 陳</span></td></tr><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M6.98643729,14.0000972 C5.19579566,14.0000972 3.40419152,13.3106896 2.04245843,11.9323606 C-0.681017475,9.21200555 -0.680780251,4.76029539 2.04293482,2.04012507 C4.76664406,-0.68004331 9.22427509,-0.68004331 11.9480135,2.04013479 C13.272481,3.36277455 14,5.1330091 14,6.99552762 C14,8.87640182 13.2721894,10.6285043 11.9480135,11.9509302 C10.5679344,13.3105924 8.77756503,14.0000972 6.98643729,14.0000972 Z M10.2705296,7.00913883 L10.2705296,8.46099754 L10.2705296,8.65543362 L10.076181,8.65543362 L8.6543739,8.65543362 L5.72059514,8.65543362 L5.52619796,8.65543362 L5.52619796,8.46099754 L5.52619796,5.52541044 L5.52619796,3.37946773 L5.52619796,3.18502193 L5.72059514,3.18502193 L7.17253164,3.18502193 L7.36692883,3.18502193 L7.36692883,3.37946773 L7.36692883,6.81467358 L10.076181,6.81467358 L10.2705296,6.81467358 L10.2705296,7.00913883 Z M12.1601539,6.99552762 C12.1601539,5.61697497 11.6190112,4.32597154 10.6393933,3.34769528 C8.63253764,1.34336744 5.35197452,1.34061603 3.34153136,3.33944106 C3.33868273,3.34219247 3.33607716,3.34494388 3.33322852,3.34769528 C1.32397148,5.35459953 1.32372842,8.63641682 3.33322852,10.6433794 C5.34295224,12.6504489 8.62968901,12.6504489 10.6393933,10.6433794 C11.6190112,9.66506426 12.1601539,8.37408027 12.1601539,6.99552762 Z"></path></svg></span>Created</th><td><time>@Jun 15, 2021 12:52 PM</time></td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>Tags</th><td><span class="selected-value select-value-color-default">other</span></td></tr></tbody></table></header><div class="page-body"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="8702b9a9-0e3c-4b1d-8d31-d4097f1b66a4"><div style="font-size:1.5em"><span class="icon">❗</span></div><div style="width:100%">由於我們的資料是即時更新的，所以我們的結論更傾向於說明的補述。</div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c6db6ff7-4c29-4bea-9a08-e8ada5a21c3a"><div style="font-size:1.5em"><span class="icon">❗</span></div><div style="width:100%">我們的總成果是做出一個「口罩地圖」這樣的工具以做使用，所以小組的各研究項目會有所關聯，全部加起來才是一個完整的大項目，缺一不可。</div></figure><h2 id="fd5cf3b7-ac16-455c-806c-1be48dc824bb" class="block-color-yellow_background">總成果總結</h2><p id="d9fb209e-264a-4502-92f6-d96511c1b189" class="">　　做出這個口罩地圖過程有諸多不易的地方，感謝去年的時候已經有許多人製作出類似的口罩地圖，讓我們得以參考，並挑選出我們覺得實用的功能做出綜合版的口罩地圖。 
+　　在目前艱難的時候，口罩有著十分高的重要性，希望這個版本的口罩地圖能夠更方便的利用是我們的初衷，也希望能以這一份口罩地圖幫助到更多需要口罩的人。
+        畢竟是疫情時間，避免非必要的出門，不在外面待太久，遵守防疫守則，保護好自己，就是為台灣在疫情時刻盡最大的貢獻。
+  
+⭐關於地圖的結論：
+　　由於目前出門的人都很少加上因為去年口罩常常需要排隊購買導致大家或多或少在家裡都有囤口罩的習慣，所以大多數的人都不會需要一直出門頻繁購買衛服部的口罩，地圖上的座標大多數都呈現綠色的，若是離家裡最近或需要的醫事機構口罩數量不足，通常只要換一間鄰近的醫事機構就可以滿足需求了。
+　　只有5/13~5/18因為公布三級警戒，所以多數藥局口罩數量看起來特別少，但經過幾個禮拜，藥局口罩數量大部分呈現穩定成長，且維持在一定水平。也有可能因為多數人都在家辦公、遠距教學，導致出門次數減少也減少口罩的消耗，因而影響口罩的購買數量。
+
+⭐關於地圖待改進的部分:<div class="indented"><ul id="ab4c23fa-c8d1-4757-911a-6e6747a73489" class="bulleted-list"><li>缺失資料的人工補上的系統<p id="95a144f5-3e8a-4ec6-bdda-ae5c5f7a3f89" class="">目前的口罩地圖有個問題還沒修，當藥局的經緯度資料沒有在 <code>location_data.csv</code> 裡面時，會有<mark class="highlight-orange_background">有從API抓到資料</mark>，但是<mark class="highlight-orange_background">沒有印在地圖上的問題</mark>。目前有先用一個方式就是，在組合資料框時，會把經緯度缺失資料的藥局存在 <code>na_df.rds</code> 裡面，如果有時間的話會接續寫下去。</p></li></ul><ul id="e636afa1-e8ac-4fc6-b602-a516ad2bfa6e" class="bulleted-list"><li>地圖的篩選器(<code>selectInput()</code>)如果存在一筆藥局在 鄉/鎮/市/區 層級且地址中沒有包含 鄉/鎮/市/區 層級時，地圖會沒辦法切換鏡頭至該 鄉/鎮/市/區 <p id="c3081c1c-75d8-4369-baac-dd2a71ab0127" class="">e.g. OO縣 XX鄉；如果地址中部包含 XX鄉 時，會直接被篩選掉，因為沒有含 XX鄉 的字串。
+正確應該先把地址用TGOS系統重新格式化一次，產生正確的地址取代資料中的地址，不過這牽扯到把資料送到API的問題，因為時間有限沒有辦法實作。</p></li></ul></div></p><h2 id="2484dee2-8330-480f-884a-3ae06350c05d" class="block-color-teal_background">分工表</h2><div id="d6440073-ea9e-4a91-90b7-d241feee658a" class="column-list"><div id="5af6a2c9-d131-4338-8967-e33955f10891" style="width:33.33333333333333%" class="column"><h3 id="64046e76-6648-46f1-8fb3-1dfd7dd2b100" class="block-color-teal">工作內容</h3></div><div id="61b820ea-bd53-4d09-8989-a9fc26fce485" style="width:33.333333333333336%" class="column"><h3 id="0f0d4c16-b09b-4209-90c0-6d8c4c2399f1" class="block-color-teal">成員</h3></div><div id="967af639-c69d-40f7-a200-267af5f4b657" style="width:33.333333333333336%" class="column"><h3 id="ee85d60a-ba1d-4d66-89ae-86a645c4d3a2" class="block-color-teal">比例</h3></div></div><div id="00ebdb8e-8d85-418c-a962-d0493dddc443" class="column-list"><div id="333a4fbd-73fb-4dfd-bfa1-3b71da453155" style="width:33.33333333333333%" class="column"><p id="efbcd497-b5f7-4e9a-b3dc-1f3b007b00e2" class=""><strong>研究動機</strong></p></div><div id="92c15283-de27-4ba2-bbf0-7eca21fedc8d" style="width:33.33333333333334%" class="column"><p id="e5d176f2-8b43-435e-85af-9191539be425" class="">許紫涵
+葉彥妤</p></div><div id="19303374-7cad-47b0-b2ae-93bb153e293a" style="width:33.33333333333333%" class="column"><p id="2f6922af-8370-4d00-8e6e-a0afebaba43e" class=""><mark class="highlight-orange">50%
+50%</mark></p></div></div><div id="23cb3763-acd2-435d-adfe-490e1eab1eeb" class="column-list"><div id="410cdc66-ba87-49c1-ada8-4fd9123be0e5" style="width:33.33333333333333%" class="column"><p id="e524a58a-16d3-4604-a0dd-5cf6a169a75c" class=""><strong>資料欄位</strong></p></div><div id="61f1eece-077b-4304-a6c4-3b87a47efaa9" style="width:33.33333333333333%" class="column"><p id="e9bb57db-c595-4a1e-bd4c-121ae76457d5" class="">陳家瑋</p></div><div id="54a40556-4779-4d9d-8b3e-32a9a5232b2e" style="width:33.333333333333336%" class="column"><p id="35672967-b6e2-45aa-bd3a-a206db563d00" class=""><mark class="highlight-orange">100%</mark></p></div></div><div id="34e686b0-dd22-4981-9b55-a5e6b02099fc" class="column-list"><div id="97e0d084-6dcb-4303-9872-3c3c7a00ade8" style="width:33.33333333333333%" class="column"><p id="4b66346f-ff4e-47d5-bd62-346a9d16b067" class=""><strong>SQL資料連結</strong></p></div><div id="216363a9-6bd0-4766-8cf6-27c036730d35" style="width:33.333333333333336%" class="column"><p id="251b55d2-79df-4cae-89f6-84576ca966f9" class="">陳家瑋</p></div><div id="a469911a-7e87-4316-abe1-f9e342f547d2" style="width:33.333333333333336%" class="column"><p id="d8596a9a-fe66-4976-8a1d-5a57dccee16c" class=""><mark class="highlight-orange">100%</mark></p></div></div><div id="65ee703f-c1dd-4ad9-9369-62fa06c89dde" class="column-list"><div id="f029b81c-1b16-4f44-8de5-24d725c43675" style="width:33.33333333333333%" class="column"><p id="5bc682b6-a0f7-4863-b48d-ef85743b8298" class=""><strong>全球定位地址服務</strong></p></div><div id="9edb4cd9-1fa5-4ce8-8205-9a40d54121eb" style="width:33.33333333333333%" class="column"><p id="b4739919-1d1b-4be2-b6f5-ac75e3252808" class="">許紫涵
+陳家瑋</p></div><div id="60c4a803-4d4a-44c2-85b4-c676207be4a7" style="width:33.33333333333334%" class="column"><p id="ad1ba346-76c7-4298-9d23-74f3a4b34708" class="block-color-orange">5<mark class="highlight-orange">0%
+50%</mark></p></div></div><div id="2b495aad-5ce1-4182-923a-c9f71035a960" class="column-list"><div id="17d38138-6db6-42b2-b6d1-6cebb9872245" style="width:33.333333333333336%" class="column"><p id="42634fc3-7a7e-45eb-9377-a245b682f771" class=""><strong>縣市資料拆分</strong></p></div><div id="e91895a2-f4e8-44ea-9b5d-3fc52e6f2934" style="width:33.333333333333336%" class="column"><p id="e45b7187-6954-489a-b979-ba8b28e49d53" class="">葉彥妤
+陳家瑋</p></div><div id="a76992fb-e357-4d64-8eef-b52fed144032" style="width:33.33333333333333%" class="column"><p id="12d06849-5205-4d69-ad69-187e62ef43d2" class="block-color-orange"><mark class="highlight-orange">50%
+50%</mark></p></div></div><div id="64bd26e3-005f-4713-a735-631fa6e5c290" class="column-list"><div id="ec66ff5e-1b69-4c86-870d-019beeabde40" style="width:33.33333333333333%" class="column"><p id="f3445f2b-6484-47a4-84f6-b0d32ce74239" class=""><strong>程式碼</strong></p></div><div id="d732fb15-a7f1-46ef-ac26-4cf0f05d8e0e" style="width:33.33333333333333%" class="column"><p id="d3c72316-6df9-474e-96f1-18235af5273e" class="">陳家瑋 
+許紫涵
+葉彥妤</p></div><div id="6156b207-a669-4a7a-9b9d-4fe761e07096" style="width:33.33333333333336%" class="column"><p id="e9b8abe8-9999-435d-9cea-a37819da1e37" class="block-color-orange">34<mark class="highlight-orange">%
+33%
+</mark>33<mark class="highlight-orange">%</mark></p></div></div><div id="4020b309-fc02-4610-9c3d-8c2ce7d57967" class="column-list"><div id="c3836568-88e6-4a55-b793-8f485342f4dc" style="width:33.333333333333336%" class="column"><p id="5fbb8278-3f66-42d5-8098-f9dc8b29179c" class=""><strong>程式優化</strong></p></div><div id="d3511cab-ffe0-4715-8293-0816a8e03644" style="width:33.333333333333336%" class="column"><p id="f5f98f9c-03f4-4eda-987a-6db61493c6cf" class="">陳家瑋</p></div><div id="8ae14b1c-4810-41ef-bdbb-34db6cbcd5bf" style="width:33.33333333333333%" class="column"><p id="60620599-1dd3-43cf-9957-543c698de6f2" class=""><mark class="highlight-orange">100%</mark></p></div></div><div id="b38a09da-ce50-4bcc-89bb-bdb1a4ea4d9e" class="column-list"><div id="bddc33b2-bc57-43f6-9716-532a0fa164fa" style="width:33.333333333333336%" class="column"><p id="e04b6538-e0f8-448b-9c32-baf612b19766" class=""><strong>APP排版構思</strong></p></div><div id="92c51b76-02d6-4a5c-8c47-a95d28c05425" style="width:33.333333333333336%" class="column"><p id="419dd877-7d75-41ef-9817-3ab54b7eea74" class="">陳家瑋</p></div><div id="08d68a42-7492-4a20-8a95-8ec8911e479a" style="width:33.33333333333333%" class="column"><p id="da8d8a20-d9ec-4fec-89cc-64b9ea1d33b5" class=""><mark class="highlight-orange">100%</mark></p></div></div><div id="ab13426e-28d4-4572-8151-9b0c80755eeb" class="column-list"><div id="20f8af85-6f19-4fd5-9a45-d962353b9418" style="width:33.333333333333336%" class="column"><p id="36cce7ed-7fe9-4804-afed-614f3471d1d6" class=""><strong>組裝程式碼</strong></p></div><div id="98791093-75ee-495c-973a-73d94ec76ed6" style="width:33.333333333333336%" class="column"><p id="181cd135-87f8-4784-ae5b-2127fcd3ab84" class="">陳家瑋</p></div><div id="1a5ecf2a-a456-4d9b-b4c7-b0733826879f" style="width:33.33333333333333%" class="column"><p id="76813a75-785c-4b94-b01a-ede2d3493759" class=""><mark class="highlight-orange">100%</mark></p></div></div><div id="1d8654dd-d4a1-4aa5-bad9-30980a227bb4" class="column-list"><div id="f9bbc176-43d2-4bb9-9041-930bd588bd2c" style="width:33.333333333333336%" class="column"><p id="11f10281-51af-4efc-9408-88ec86486602" class=""><strong>研究項目說明</strong></p></div><div id="710c256d-9a45-4296-942b-d09e80c511a6" style="width:33.33333333333333%" class="column"><p id="8882bea2-fe99-4bee-8722-cbf759c8b658" class="">陳家瑋 
+許紫涵
+葉彥妤</p></div><div id="3e741467-8c67-41db-92c7-39b78f8a00e0" style="width:33.33333333333334%" class="column"><p id="f0ceb1b3-4761-4534-a7ca-e586629671fc" class=""><mark class="highlight-orange">34%
+33%
+33%</mark></p></div></div><div id="6071f977-c3fc-42e7-bfc9-7b6bdab9c633" class="column-list"><div id="f513bd81-99cb-4ba9-8fff-a838eecb5b84" style="width:33.333333333333336%" class="column"><p id="4cc09531-864f-4258-aeab-85a324437514" class=""><strong>結論</strong></p></div><div id="161b317d-dfdf-49b3-ab64-9a25402d6e45" style="width:33.333333333333336%" class="column"><p id="cc383acf-4753-4443-9c39-97d0bc0b9cff" class="">陳家瑋 
+許紫涵
+葉彥妤</p></div><div id="e3040b0a-4dc3-4812-8b37-45c9a1e3d1a7" style="width:33.33333333333333%" class="column"><p id="0692236c-1c72-4267-9319-acf92645f866" class="block-color-orange">34<mark class="highlight-orange">%
+33%
+33%</mark></p></div></div><div id="0fadf42c-e7e3-4573-bd50-78bddaade222" class="column-list"><div id="24f2a5c3-f4e5-4883-b2fd-519969828636" style="width:33.33333333333333%" class="column"><p id="f9897846-17d3-4f58-a2a9-e96012a1a52d" class=""><strong>補充教學</strong></p></div><div id="0166e2e9-a421-4d09-9cf9-d3af38304aea" style="width:33.33333333333333%" class="column"><p id="4ddf812c-515e-4568-bf09-fff0531ee657" class="">陳家瑋</p></div><div id="ac2fc96e-bdfc-46fd-b08a-f514d933c0db" style="width:33.33333333333334%" class="column"><p id="014cdf42-afce-4e4f-86a7-930065b2cd99" class=""><mark class="highlight-orange">100%</mark></p></div></div><p id="58011879-f24e-41df-b2a2-93f0da2d959a" class="">
+</p></div></article></body></html>

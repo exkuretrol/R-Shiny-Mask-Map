@@ -21,13 +21,13 @@ CityDist <- readRDS("./data/CityDist.rds")
 drawer1_level <- CityDist %>%
     select(City) %>%
     unique() %>%
-    filter(City != "釣魚台") %>% 
+    filter(City != "釣魚台") %>%
     add_row(City = "請選擇縣市", .before = 1)
 
 Institute_location <- read_csv(
     "./data/Institute_location.csv",
     col_types = cols(
-        醫事機構代碼  = col_character(),
+        醫事機構代碼 = col_character(),
         x = col_character(),
         y = col_character()
     )
@@ -40,50 +40,47 @@ opening_time_data_url <- URLencode(opening_time_data_url)
 maskdata <- read_csv(
     maskdata_url,
     col_types = cols(
-        醫事機構代碼  = col_character(),
-        醫事機構名稱  = col_character(),
-        醫事機構地址  = col_character(),
-        醫事機構電話  = col_character(),
-        成人口罩剩餘數  = col_integer(),
-        兒童口罩剩餘數  = col_integer(),
-        來源資料時間  = col_character()
+        醫事機構代碼 = col_character(),
+        醫事機構名稱 = col_character(),
+        醫事機構地址 = col_character(),
+        醫事機構電話 = col_character(),
+        成人口罩剩餘數 = col_integer(),
+        兒童口罩剩餘數 = col_integer(),
+        來源資料時間 = col_character()
     )
 )
 if (nrow(maskdata) < 1000) {
     API_NO_DATA <- 1
-    
+
     maskdata <- read_csv(
         "./data/maskdata.csv",
         col_types = cols(
-            醫事機構代碼  = col_character(),
-            醫事機構名稱  = col_character(),
-            醫事機構地址  = col_character(),
-            醫事機構電話  = col_character(),
-            成人口罩剩餘數  = col_integer(),
-            兒童口罩剩餘數  = col_integer(),
-            來源資料時間  = col_character()
+            醫事機構代碼 = col_character(),
+            醫事機構名稱 = col_character(),
+            醫事機構地址 = col_character(),
+            醫事機構電話 = col_character(),
+            成人口罩剩餘數 = col_integer(),
+            兒童口罩剩餘數 = col_integer(),
+            來源資料時間 = col_character()
         )
     )
-
 } else {
-    
     write_csv(maskdata, "./data/maskdata.csv")
-    
 }
 
 
 opening_time_data <- read_csv(
     opening_time_data_url,
     col_types = cols(
-        醫事機構代碼  = col_character(),
-        醫事機構名稱  = col_skip(),
-        業務組別  = col_skip(),
-        特約類別  = col_skip(),
-        看診年度  = col_skip(),
-        看診星期  = col_character(),
-        看診備註  = col_character(),
-        開業狀況  = col_integer(),
-        資料集更新時間  = col_character()
+        醫事機構代碼 = col_character(),
+        醫事機構名稱 = col_skip(),
+        業務組別 = col_skip(),
+        特約類別 = col_skip(),
+        看診年度 = col_skip(),
+        看診星期 = col_character(),
+        看診備註 = col_character(),
+        開業狀況 = col_integer(),
+        資料集更新時間 = col_character()
     )
 )
 
@@ -92,10 +89,10 @@ Institute_data <- left_join(Institute_data, Institute_location)
 nadf <- Institute_data %>%
     filter(is.na(x) | is.na(y))
 if (nrow(nadf) != 0) {
-    saveRDS(nadf, "./data/NA_df.rds")    
+    saveRDS(nadf, "./data/NA_df.rds")
 }
 Institute_data <- Institute_data %>%
-    mutate(City = substr(醫事機構地址, 1, 3)) %>% 
+    mutate(City = substr(醫事機構地址, 1, 3)) %>%
     filter(!is.na(x) | !is.na(y))
 
 rm(
@@ -111,10 +108,18 @@ markerIcons <- awesomeIcons(
     icon = "plus",
     iconColor = "white",
     markerColor = sapply(Institute_data$成人口罩剩餘數, function(x) {
-        if (x >= 200) { "green" }
-        else if (x < 200 & x >= 100) { "yellow" }
-        else if (x < 100 & x >= 50) { "orange" }
-        else if (x < 50) { "red" }
+        if (x >= 200) {
+            "green"
+        }
+        else if (x < 200 & x >= 100) {
+            "yellow"
+        }
+        else if (x < 100 & x >= 50) {
+            "orange"
+        }
+        else if (x < 50) {
+            "red"
+        }
     })
 )
 
@@ -131,11 +136,11 @@ m <- Institute_data %>%
     ) %>%
     addTiles() %>%
     addAwesomeMarkers(
-        lng = ~as.double(x),
-        lat = ~as.double(y),
+        lng = ~ as.double(x),
+        lat = ~ as.double(y),
         clusterOptions = markerClusterOptions(),
         icon = markerIcons,
-        layerId = ~as.character(醫事機構代碼)
+        layerId = ~ as.character(醫事機構代碼)
     ) %>%
     addLegend(
         position = "topright",
@@ -146,23 +151,25 @@ m <- Institute_data %>%
     )
 
 genHTMLTable <- function(OpeningHourVector) {
-    if (is.na(OpeningHourVector) | 
-        !is.character((OpeningHourVector)) | 
+    if (is.na(OpeningHourVector) |
+        !is.character((OpeningHourVector)) |
         nchar(OpeningHourVector) != 21
-    ) { return() }
+    ) {
+        return()
+    }
     str <- OpeningHourVector
     s <- sapply(
         seq(
-            from=1, 
-            to=nchar(str), 
-            by=7
-        ), 
-        function(i) substr(str, i, i+6)
+            from = 1,
+            to = nchar(str),
+            by = 7
+        ),
+        function(i) substr(str, i, i + 6)
     )
     tags$table(
         style = "width: 100%;",
         tags$tr(
-            tags$th("營業時間"),
+            tags$th(""),
             tags$th("一"),
             tags$th("二"),
             tags$th("三"),
@@ -174,16 +181,26 @@ genHTMLTable <- function(OpeningHourVector) {
         lapply(X = 1:3, FUN = function(i) {
             tags$tr(
                 lapply(X = 0:7, FUN = function(j) {
+                    # split a length 7 string to length 7 vector by character.
                     ss <- strsplit(s[i], "")
-                    
                     tags$td(
                         if (j == 0) {
-                            if (i == 1 & j == 0) { "上午" }
-                            else if (i == 2 & j == 0) { "下午" }
-                            else if (i == 3 & j == 0) { "晚上" }
-                        }  else {
-                            if (ss[[1]][j] == "N") { tags$i(class = "fas fa-check-circle", style = "color: mediumaquamarine;") } 
-                            else { tags$i(class = "fas fa-times-circle", style = "color: tomato;") }
+                            if (i == 1 & j == 0) {
+                                "上午"
+                            }
+                            else if (i == 2 & j == 0) {
+                                "下午"
+                            }
+                            else if (i == 3 & j == 0) {
+                                "晚上"
+                            }
+                        } else {
+                            if (ss[[1]][j] == "N") {
+                                tags$i(class = "fas fa-check-circle", style = "color: mediumaquamarine;")
+                            }
+                            else {
+                                tags$i(class = "fas fa-times-circle", style = "color: tomato;")
+                            }
                         },
                         style = "padding-top: 4px; padding-bottom: 4px;"
                     )
@@ -192,4 +209,3 @@ genHTMLTable <- function(OpeningHourVector) {
         })
     )
 }
-

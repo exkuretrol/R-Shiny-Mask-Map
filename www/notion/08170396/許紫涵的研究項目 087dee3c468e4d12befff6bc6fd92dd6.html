@@ -1,0 +1,757 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>許紫涵的研究項目</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="95b151fd-9584-4604-ae8c-ec7a7cd6a429" class="page sans"><header><h1 class="page-title">許紫涵的研究項目</h1><table class="properties"><tbody><tr class="property-row property-row-person"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesPerson"><path d="M9.625,10.8465 C8.91187,10.2891 8.12088,9.926 7,9.26013 L7,8.71938 C7.21175,8.47612 7.392,8.176 7.53813,7.83213 C7.94587,7.7315 8.3125,7.33425 8.3125,7 C8.3125,6.51788 8.1095,6.32713 7.8715,6.17137 C7.8715,6.15562 7.875,6.14162 7.875,6.125 C7.875,5.41362 7.4375,3.5 5.25,3.5 C3.0625,3.5 2.625,5.4145 2.625,6.125 C2.625,6.14162 2.6285,6.15562 2.6285,6.17137 C2.3905,6.32713 2.1875,6.51788 2.1875,7 C2.1875,7.33425 2.55413,7.7315 2.96187,7.833 C3.108,8.176 3.28825,8.47612 3.5,8.71938 L3.5,9.26013 C2.37912,9.92513 1.58812,10.2882 0.875,10.8465 C0.041125,11.4984 0,12.4688 0,14 L10.5,14 C10.5,12.4688 10.4589,11.4984 9.625,10.8465 Z M13.125,7.3465 C12.4119,6.78912 11.6209,6.426 10.5,5.76013 L10.5,5.21938 C10.7118,4.97613 10.892,4.676 11.0381,4.33213 C11.4459,4.2315 11.8125,3.83425 11.8125,3.5 C11.8125,3.01787 11.6095,2.82713 11.3715,2.67138 C11.3715,2.65562 11.375,2.64162 11.375,2.625 C11.375,1.91363 10.9375,0 8.75,0 C6.5625,0 6.125,1.9145 6.125,2.625 C6.125,2.64162 6.1285,2.65562 6.1285,2.67138 C6.11188,2.68275 6.09787,2.69588 6.08125,2.70725 C7.83212,3.066 8.59688,4.54825 8.72813,5.74787 C8.97575,6.00863 9.1875,6.39625 9.1875,7 C9.1875,7.60288 8.771,8.20312 8.18388,8.51462 C8.127,8.624 8.06662,8.729 8.00275,8.82962 C8.155,8.91537 8.30025,8.99675 8.44025,9.07463 C9.08075,9.4325 9.63375,9.74137 10.164,10.1561 C10.3022,10.2638 10.4204,10.3801 10.5289,10.4991 L14,10.4991 C14,8.96875 13.9589,7.99837 13.125,7.3465 Z"></path></svg></span>Author</th><td><span class="user"><span class="icon text-icon user-icon"><span class="user-icon-inner">0</span></span>08170396 08170396</span></td></tr><tr class="property-row property-row-created_time"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesCreatedAt"><path d="M6.98643729,14.0000972 C5.19579566,14.0000972 3.40419152,13.3106896 2.04245843,11.9323606 C-0.681017475,9.21200555 -0.680780251,4.76029539 2.04293482,2.04012507 C4.76664406,-0.68004331 9.22427509,-0.68004331 11.9480135,2.04013479 C13.272481,3.36277455 14,5.1330091 14,6.99552762 C14,8.87640182 13.2721894,10.6285043 11.9480135,11.9509302 C10.5679344,13.3105924 8.77756503,14.0000972 6.98643729,14.0000972 Z M10.2705296,7.00913883 L10.2705296,8.46099754 L10.2705296,8.65543362 L10.076181,8.65543362 L8.6543739,8.65543362 L5.72059514,8.65543362 L5.52619796,8.65543362 L5.52619796,8.46099754 L5.52619796,5.52541044 L5.52619796,3.37946773 L5.52619796,3.18502193 L5.72059514,3.18502193 L7.17253164,3.18502193 L7.36692883,3.18502193 L7.36692883,3.37946773 L7.36692883,6.81467358 L10.076181,6.81467358 L10.2705296,6.81467358 L10.2705296,7.00913883 Z M12.1601539,6.99552762 C12.1601539,5.61697497 11.6190112,4.32597154 10.6393933,3.34769528 C8.63253764,1.34336744 5.35197452,1.34061603 3.34153136,3.33944106 C3.33868273,3.34219247 3.33607716,3.34494388 3.33322852,3.34769528 C1.32397148,5.35459953 1.32372842,8.63641682 3.33322852,10.6433794 C5.34295224,12.6504489 8.62968901,12.6504489 10.6393933,10.6433794 C11.6190112,9.66506426 12.1601539,8.37408027 12.1601539,6.99552762 Z"></path></svg></span>Created</th><td><time>@Jun 15, 2021 12:43 PM</time></td></tr><tr class="property-row property-row-multi_select"><th><span class="icon property-icon"><svg viewBox="0 0 14 14" style="width:14px;height:14px;display:block;fill:rgba(55, 53, 47, 0.4);flex-shrink:0;-webkit-backface-visibility:hidden" class="typesMultipleSelect"><path d="M4,3 C4,2.447715 4.447715,2 5,2 L12,2 C12.5523,2 13,2.447716 13,3 C13,3.55228 12.5523,4 12,4 L5,4 C4.447715,4 4,3.55228 4,3 Z M4,7 C4,6.447715 4.447715,6 5,6 L12,6 C12.5523,6 13,6.447716 13,7 C13,7.55228 12.5523,8 12,8 L5,8 C4.447715,8 4,7.55228 4,7 Z M4,11 C4,10.447715 4.447715,10 5,10 L12,10 C12.5523,10 13,10.447716 13,11 C13,11.55228 12.5523,12 12,12 L5,12 C4.447715,12 4,11.55228 4,11 Z M2,4 C1.44771525,4 1,3.55228475 1,3 C1,2.44771525 1.44771525,2 2,2 C2.55228475,2 3,2.44771525 3,3 C3,3.55228475 2.55228475,4 2,4 Z M2,8 C1.44771525,8 1,7.55228475 1,7 C1,6.44771525 1.44771525,6 2,6 C2.55228475,6 3,6.44771525 3,7 C3,7.55228475 2.55228475,8 2,8 Z M2,12 C1.44771525,12 1,11.5522847 1,11 C1,10.4477153 1.44771525,10 2,10 C2.55228475,10 3,10.4477153 3,11 C3,11.5522847 2.55228475,12 2,12 Z"></path></svg></span>Tags</th><td><span class="selected-value select-value-color-default">other</span></td></tr></tbody></table></header><div class="page-body"><h1 id="8f28cdde-6ecf-4de4-b681-6c4027dd0e3c" class="block-color-yellow_background">許紫涵的研究項目</h1><h2 id="e801f134-e21c-4bcd-b903-6308d068c8f2" class="block-color-brown_background">研究項目1</h2><h3 id="a3663cff-f65f-4cdb-8ee6-51fe24237b7e" class="">說明</h3><p id="629fc704-03e8-4622-a790-25c6bca1ca96" class="">根據資料給的地址用<a href="https://www.tgos.tw/tgos/Web/Address/TGOS_Address.aspx">全國門牌地址定位服務</a>找出該店的經緯度</p><p id="12b6d3a2-ad6f-405f-b731-4836cbf255cd" class="">◾以全國門牌地址定位服務找出藥局經緯度再與地圖做結合，打造出一目瞭然的口罩地圖。</p><h3 id="256750aa-5a07-41fc-b377-76dd3970cb59" class="">資料說明</h3><p id="dc7696b0-dc92-4615-8185-1392871ef13a" class="">先將從政府開放平台下載的資料獨立出地址的資料，轉換成符合全國門牌地址定位服務中批次門牌地址比對服務的格式，即可獲得excel檔案的座標。</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="e44fb21d-e8ba-4027-be04-789b2a52e32d"><div style="font-size:1.5em"><span class="icon">❗</span></div><div style="width:100%">有些地址因為有多個多個門牌號碼、地址的資料有些微的錯誤或地址資料排序不符合格式，還有其他77筆手動資料(以google map做查詢)</div></figure><p id="a281eb90-f869-4f3e-a292-9898688579d0" class="">
+</p><div id="8ebb2efe-2ac2-4475-ba17-d359c42ee1f5" class="column-list"><div id="f2f1f74e-e760-4662-a960-6b20f57b8f72" style="width:50%" class="column"><figure id="087dee3c-468e-4d12-beff-f6bc6fd92dd6" class="image"><a href="%E8%A8%B1%E7%B4%AB%E6%B6%B5%E7%9A%84%E7%A0%94%E7%A9%B6%E9%A0%85%E7%9B%AE%20087dee3c468e4d12befff6bc6fd92dd6/Untitled.png"><img style="width:243px" src="%E8%A8%B1%E7%B4%AB%E6%B6%B5%E7%9A%84%E7%A0%94%E7%A9%B6%E9%A0%85%E7%9B%AE%20087dee3c468e4d12befff6bc6fd92dd6/Untitled.png"/></a></figure></div><div id="30e4b471-989c-4308-ac49-27d0f166dd7e" style="width:50%" class="column"><figure id="8473e67f-29f0-4947-a013-3d9aae7923f1" class="image"><a href="%E8%A8%B1%E7%B4%AB%E6%B6%B5%E7%9A%84%E7%A0%94%E7%A9%B6%E9%A0%85%E7%9B%AE%20087dee3c468e4d12befff6bc6fd92dd6/Untitled%201.png"><img style="width:282px" src="%E8%A8%B1%E7%B4%AB%E6%B6%B5%E7%9A%84%E7%A0%94%E7%A9%B6%E9%A0%85%E7%9B%AE%20087dee3c468e4d12befff6bc6fd92dd6/Untitled%201.png"/></a></figure></div></div><p id="b5bd1099-e7d9-4ccd-82d7-6108c67c8f1d" class="">最後再將經緯度和原始資料做整合即完成。</p><h3 id="f127af7c-29db-4975-a5f0-90cbbaee372f" class="">程式碼說明</h3><p id="f8b1393c-7663-4295-aada-9be5c0259113" class="block-color-blue">先進行檔案與套件的設置</p><pre id="fca71acf-a83e-4e62-9782-295181aa16d5" class="code"><code>#前置作業====
+library(leaflet)
+#匯入檔案====
+setwd(&quot;~/&quot;)
+data=readRDS(&quot;maskdata(x,y).RDS&quot;)</code></pre><p id="3fd9c8cf-d945-4551-bc11-2d8eb0241ae5" class="block-color-blue">簡單的設置一下顯示出來的訊息(<a href="https://www.notion.so/e28837f4622e4d65b82da51e7c572e3c">精進版本</a>)
+目前設置的是:機構名稱&amp;機構地址</p><pre id="709c639c-f24c-48b6-a3f9-fe3ea0f9c1ac" class="code"><code># 製作訊息====
+info = paste(&quot;&lt;b&gt;&lt;font color=&#x27;red&#x27;&gt;&quot;,
+             data$醫事機構名稱, 
+             &quot;&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&quot;,
+             data$醫事機構地址, sep=&quot;&quot;)</code></pre><p id="d717ebe4-5880-4aea-afc0-2ea9093113f0" class="block-color-blue">畫地圖的程式碼</p><pre id="142952bf-9fec-416a-8545-45f1e561a1fa" class="code"><code>#畫地圖====
+m &lt;- leaflet() %&gt;%
+  addTiles() %&gt;%  # 加入內定的 OpenStreetMap 圖層
+  addMarkers(lng=data$x, lat=data$y,
+             label=lapply(info, shiny::HTML),
+             clusterOptions=markerClusterOptions())#使地圖更方便閱讀
+m  # 秀出地圖</code></pre><h3 id="3290c7b1-8f2c-498a-aad0-d09dcf2dce2a" class="">結論</h3><p id="ac387182-a3af-4e8e-9092-048149a63cf9" class="">利用座標顯示醫事機構在地圖上的位置。</p><h3 id="58f975ff-f15e-4dc7-a179-336f93f58058" class="">成果畫面</h3><figure id="5660ba7f-9a1d-42bf-82a3-cfac27a81213" class="image"><a href="%E8%A8%B1%E7%B4%AB%E6%B6%B5%E7%9A%84%E7%A0%94%E7%A9%B6%E9%A0%85%E7%9B%AE%20087dee3c468e4d12befff6bc6fd92dd6/Untitled%202.png"><img style="width:432px" src="%E8%A8%B1%E7%B4%AB%E6%B6%B5%E7%9A%84%E7%A0%94%E7%A9%B6%E9%A0%85%E7%9B%AE%20087dee3c468e4d12befff6bc6fd92dd6/Untitled%202.png"/></a></figure><h2 id="fee82c47-5fea-487f-9004-2980883e623f" class="block-color-brown_background">研究項目2</h2><h3 id="3f9f9364-023b-47b3-aa87-4520be74ce44" class="">說明</h3><p id="536be4d9-d30a-42ff-bf9f-bb5e44b41e0b" class="">提供即時的各大藥局口罩剩餘數量</p><p id="d1031e01-6c59-49aa-bb0f-59c0e1631e1c" class="">◾製作圖示，依照不同顏色在地圖上顯示剩餘數量(區間)。</p><h3 id="7282c36f-08f4-492b-8e0a-7756bd2870ba" class="">程式碼說明</h3><figure class="callout" style="white-space:pre-wrap;display:flex" id="0177bad7-f295-409f-a8b6-db66d701d5f4"><div style="font-size:1.5em"><span class="icon">❗</span></div><div style="width:100%">檔案與套件設置與其他雷同，在此不做贅述。</div></figure><p id="3425d9e1-33ff-491a-82af-034431598d3b" class="block-color-blue">製作icon以區間的方式做顏色的設置
+▪️當成人口罩剩餘數 ≥ 200 時為<mark class="highlight-teal">綠色</mark>
+▪️當成人口罩剩餘數 ≥ 100 時為<mark class="highlight-yellow">黃色</mark>
+▪️當成人口罩剩餘數 ≥ 50 時為<mark class="highlight-orange">橘色</mark>
+▪️當成人口罩剩餘數 &lt; 50 時為<mark class="highlight-red">紅色</mark></p><p id="b6e92c8e-09ca-4e2b-9eea-bb9669beaa72" class=""><mark class="highlight-blue">座標中心的圖案預設是「房子」的圖案，因為目前指定的icons庫為ionicons，此icon庫的選擇十分稀少，所以我們以加號代表醫事機構的圖案。</mark></p><pre id="c69dc223-4157-47e6-8558-7b9fbb68ca80" class="code"><code>#製作icon====
+#0 創建顏色向量函數
+getColor &lt;- function(data) { 
+  sapply(data$成人口罩剩餘數, 
+         function(成人口罩剩餘數) { 
+           if(成人口罩剩餘數 &gt;= 200) {&quot;green&quot;} 
+           else if(成人口罩剩餘數 &gt;= 100){ &quot;yellow&quot; }
+           else if(成人口罩剩餘數 &gt;= 50) {  &quot;orange&quot;  } 
+           else {  &quot;red&quot;  } }) }
+icons &lt;- awesomeIcons(  icon = &#x27;plus&#x27;, # icon名字為&quot;plus&quot;(加號) 
+                        iconColor = &#x27;black&#x27;, # 指定icon顏色 
+                        library = &#x27;ion&#x27;, # 指定icons庫為ionicons 
+                        markerColor = getColor(data)) # 指定markers顏色</code></pre><p id="5b857b29-ca7b-4f85-92c8-6786eef0006c" class=""><mark class="highlight-blue">最後就是畫地圖啦</mark></p><pre id="9dc15ed4-8054-4d65-b849-6559fd400092" class="code"><code>#畫地圖====
+leaflet(data) %&gt;% addTiles() %&gt;% 
+  addAwesomeMarkers(lng=data$x, lat=data$y, 
+                    icon=icons, 
+                    label=lapply(info, shiny::HTML),
+                    clusterOptions=markerClusterOptions())</code></pre><h3 id="024cd3ce-1222-4b43-81cf-e5d73abd97d9" class="">結論</h3><p id="72c4a1cc-0e90-432f-a81c-7641dcc0100e" class="">以區間的方式將座標變顏色，讓口罩剩餘數量可以以顏色清楚的顯示，以更方便的查看口罩剩餘數量。</p><h3 id="a57b71d0-64b3-43c1-b4d8-fd7b996597c1" class="">成果畫面</h3><p id="3e098638-4464-445f-bbb7-a5aff9ff69f5" class="">以下以銘傳大學圓環下藥局為找尋例子。</p><figure id="7ca0d5cf-e970-4851-beeb-971772336100" class="image"><a href="%E8%A8%B1%E7%B4%AB%E6%B6%B5%E7%9A%84%E7%A0%94%E7%A9%B6%E9%A0%85%E7%9B%AE%20087dee3c468e4d12befff6bc6fd92dd6/Untitled%203.png"><img style="width:480px" src="%E8%A8%B1%E7%B4%AB%E6%B6%B5%E7%9A%84%E7%A0%94%E7%A9%B6%E9%A0%85%E7%9B%AE%20087dee3c468e4d12befff6bc6fd92dd6/Untitled%203.png"/></a></figure><figure id="859d8cc2-efe5-4de2-af83-a1d2b1d9c17f" class="image"><a href="%E8%A8%B1%E7%B4%AB%E6%B6%B5%E7%9A%84%E7%A0%94%E7%A9%B6%E9%A0%85%E7%9B%AE%20087dee3c468e4d12befff6bc6fd92dd6/Untitled%204.png"><img style="width:432px" src="%E8%A8%B1%E7%B4%AB%E6%B6%B5%E7%9A%84%E7%A0%94%E7%A9%B6%E9%A0%85%E7%9B%AE%20087dee3c468e4d12befff6bc6fd92dd6/Untitled%204.png"/></a></figure><h2 id="43f298e6-2ab0-49ad-8a6c-468e12a4c182" class="block-color-brown_background">研究項目3</h2><h3 id="7089becc-daa0-40f1-ba5b-23947be69566" class="">說明</h3><p id="2b49f208-7ae1-4aab-a89e-9161895054e4" class="">口罩剩餘數量的歷史資料視覺化</p><p id="23767c9e-cdab-40ca-bea1-008d11223f33" class="">◾依照歷史資料，將過去口罩數量圖表化，得知藥局每日口罩銷售情況。</p><h3 id="ffc71c39-e625-4ce2-baaf-05ab7e712e57" class="">資料說明</h3><p id="07cd635a-36f9-4ede-9b76-61f8833af327" class="">要畫出30天的口罩數量資料要先抓取過去30天的資料，我們將MYSQL設置成自動抓取資料，並記錄30天內的資料，資料若超過30天則自動刪除。</p><p id="d93edbd5-f1b1-43b3-9b20-85132a002aa9" class="">詳細資訊:</p><figure id="39048722-c4ad-43b7-81c4-c3a87f4b3845" class="link-to-page"><a href="https://www.notion.so/39048722c4ad43b781c4c3a87f4b3845"><span class="icon">📜</span>完成資料庫自動更新腳本</a></figure><figure id="095c4e5f-6929-4e85-ace1-c336aa86744d" class="link-to-page"><a href="https://www.notion.so/SQL-095c4e5f69294e85ace1c336aa86744d"><span class="icon">📜</span>產生資料庫的SQL腳本</a></figure><figure id="90dc4cd7-f787-45e0-a759-270847badae6" class="link-to-page"><a href="https://www.notion.so/90dc4cd7f78745e0a759270847badae6"><span class="icon">📜</span>修正資料庫自動更新腳本</a></figure><p id="b26d0290-0255-4758-9f03-cf9faee0c653" class="">
+</p><h3 id="cdb39e81-aab4-484d-a252-9eca27be9aa0" class="">程式碼說明</h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="70669750-3eb0-4c31-98ba-8ed69690de9a"><div style="font-size:1.5em"><span class="icon">❗</span></div><div style="width:100%">檔案與套件設置與其他雷同，在此不做贅述。</div></figure><p id="1a8825b3-b63e-48f4-b5e6-eee09e802d58" class="block-color-blue">做完資料的處理，要在shinny app內做設置與MYSQL做連結</p><pre id="4ad0f8af-14dc-47bc-8850-ab73f5c5a165" class="code"><code>#連結====
+#  MySQL connection ----
+db_user &lt;- &quot;mask&quot;
+db_password &lt;- &quot;396875893&quot;
+db_host &lt;- &quot;exkuretrol.com&quot;
+db_port &lt;- 3306
+db_name &lt;- &quot;mask&quot;
+
+con &lt;- dbConnect(
+  RMySQL::MySQL(),
+  user = db_user,
+  password = db_password,
+  host = db_host,
+  port = db_port,
+  dbname = db_name
+)</code></pre><p id="add92ee5-12e0-4c90-a23a-b3f6ee6d1127" class="block-color-blue">再來是設定SQL的查詢語法</p><pre id="77b0d785-27bd-429d-a43c-04069db48ef4" class="code"><code># 設定查詢語法====
+sql_statement = &quot;select * from MedicalInstitute&quot;
+Medical_Institue_Information = dbGetQuery(con,sql_statement)
+
+sql_statement = &quot;select * from `masklog` where MedicalInstitute_M_id = ?M_id&quot;
+query = sqlInterpolate(con,sql_statement,M_id = &quot;5932077154&quot;)#這裡先設定為銘傳大學圓環下的藥局作為示範
+
+target_Medical_Institute = dbGetQuery(con,query)
+target_Medical_Institute =
+  target_Medical_Institute %&gt;%
+  mutate(m_datetime = as.POSIXct(m_datetime))</code></pre><p id="3d30d897-b2d7-4a4c-be62-31faa77cfbd2" class="block-color-blue">以plotly畫出圖，但是這樣的圖不容易閱讀</p><pre id="901c5908-77c9-473a-9752-63b3e6438a03" class="code"><code>#畫月口罩庫存圖(只有圖)====
+fig = target_Medical_Institute %&gt;%
+  plot_ly() %&gt;%
+  add_lines(
+    x = target_Medical_Institute$m_datetime,
+    y = target_Medical_Institute$adult_mask,
+    name = &quot;成人口罩&quot;,
+    mode = &#x27;lines&#x27;,
+    fill=&#x27;tozeroy&#x27;) %&gt;%
+  add_lines(
+    x = target_Medical_Institute$m_datetime,
+    y = target_Medical_Institute$child_mask,
+    name = &quot;兒童口罩&quot;)</code></pre><p id="f8ffa552-5449-41db-a873-81e3bea03546" class="block-color-blue">所以我們做了這樣子的改動，加入quantmod套件，可以選擇一段時間去做觀看口罩數量，再加上醫些版面的小調整，使版面更加清晰</p><pre id="e07658ef-4d3d-4576-87ff-0b75bed28a15" class="code"><code>#畫月口罩庫存圖(可選時間區間)====
+library(quantmod)
+fig = target_Medical_Institute %&gt;%
+  plot_ly() %&gt;%
+  add_lines(
+    x = ~m_datetime,
+    y = ~adult_mask,
+    name = &quot;成人口罩&quot;,
+    mode = &#x27;lines&#x27;,
+    fill=&#x27;tozeroy&#x27;) %&gt;%
+  add_lines(
+    x = ~m_datetime,
+    y = ~child_mask,
+    name = &quot;兒童口罩&quot;,
+    fill=&#x27;tozeroy&#x27;) %&gt;%
+  layout(
+    hovermode = &#x27;x&#x27;,
+    title = list(text = &quot;30天內口罩數量圖&quot;,x = 1),
+    xaxis = list(
+      rangeselector = list(
+        buttons = list(
+          list(
+            count = 1,
+            label = &quot;過去24小時&quot;,
+            step = &quot;day&quot;,
+            stepmode = &quot;backward&quot;
+          ),
+          list(
+            count = 3,
+            label = &quot;過去3天&quot;,
+            step = &quot;day&quot;,
+            stepmode = &quot;backward&quot;
+          ),
+          list(
+            count = 7,
+            label = &quot;過去1週&quot;,
+            step = &quot;day&quot;,
+            stepmode = &quot;backward&quot;
+          ),
+          list(
+            count = 14,
+            label = &quot;過去2週&quot;,
+            step = &quot;day&quot;,
+            stepmode = &quot;todate&quot;
+          ),
+          list(step = &quot;all&quot;)
+        )
+      ),
+      rangeslider = list(thickness = 0.05),
+      title = &quot;時間&quot;
+    ),
+    legend=(list(x=0,bgcolor = &#x27;rgba(0,0,0,0)&#x27;)),
+    yaxis = list(title = &quot;口罩數量&quot;)
+  )%&gt;%
+  config(displayModeBar = FALSE)</code></pre><h3 id="9edd0b12-d040-4b4b-8c3a-fc94738b2867" class="">結論</h3><p id="c3a857e6-14db-4b1a-b13b-9e3d5e446f6e" class="">圖表畫30天口罩數量，可以清楚的知道該機構的口罩數量情況。</p><h3 id="dbfcb24f-5b91-4b0b-b10f-850777db0804" class="">成果畫面</h3><figure id="485a69df-4a9b-42e2-bf4c-db48c4c172e7" class="image"><a href="%E8%A8%B1%E7%B4%AB%E6%B6%B5%E7%9A%84%E7%A0%94%E7%A9%B6%E9%A0%85%E7%9B%AE%20087dee3c468e4d12befff6bc6fd92dd6/Untitled%205.png"><img style="width:432px" src="%E8%A8%B1%E7%B4%AB%E6%B6%B5%E7%9A%84%E7%A0%94%E7%A9%B6%E9%A0%85%E7%9B%AE%20087dee3c468e4d12befff6bc6fd92dd6/Untitled%205.png"/></a></figure></div></article></body></html>
