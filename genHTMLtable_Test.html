@@ -1,0 +1,407 @@
+<div class="chunk" id="unnamed-chunk-1"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">library</span><span class="hl std">(shiny)</span>
+</pre></div>
+</div></div>
+
+
+
+<html lang="en">
+
+<head>
+<style type="text/css">
+.inline {
+  background-color: #f7f7f7;
+  border:solid 1px #B0B0B0;
+}
+.error {
+	font-weight: bold;
+	color: #FF0000;
+}
+.warning {
+	font-weight: bold;
+}
+.message {
+	font-style: italic;
+}
+.source, .output, .warning, .error, .message {
+	padding: 0 1em;
+  border:solid 1px #F7F7F7;
+}
+.source {
+  background-color: #f5f5f5;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+.center {
+  text-align: center;
+}
+.hl.num {
+  color: #AF0F91;
+}
+.hl.str {
+  color: #317ECC;
+}
+.hl.com {
+  color: #AD95AF;
+  font-style: italic;
+}
+.hl.opt {
+  color: #000000;
+}
+.hl.std {
+  color: #585858;
+}
+.hl.kwa {
+  color: #295F94;
+  font-weight: bold;
+}
+.hl.kwb {
+  color: #B05A65;
+}
+.hl.kwc {
+  color: #55aa55;
+}
+.hl.kwd {
+  color: #BC5A65;
+  font-weight: bold;
+}
+</style>
+<title>genHTMLtable Test</title>
+
+<div class="chunk" id="unnamed-chunk-2"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">meta</span><span class="hl std">(</span><span class="hl kwc">charset</span><span class="hl std">=</span><span class="hl str">&quot;UTF-8&quot;</span><span class="hl std">)</span>
+</pre></div>
+<!--html_preserve--><meta charset="UTF-8"/><!--/html_preserve--><div class="source"><pre class="knitr r"><span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">script</span><span class="hl std">(</span><span class="hl kwc">src</span><span class="hl std">=</span><span class="hl str">&quot;https://kit.fontawesome.com/5c941e5954.js&quot;</span><span class="hl std">,</span> <span class="hl kwc">crossorigin</span><span class="hl std">=</span><span class="hl str">&quot;anonymous&quot;</span><span class="hl std">)</span>
+</pre></div>
+<!--html_preserve--><script src="https://kit.fontawesome.com/5c941e5954.js" crossorigin="anonymous"></script><!--/html_preserve--></div></div>
+</head>
+
+<body>
+
+<div class="chunk" id="unnamed-chunk-3"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">genHTMLTable</span> <span class="hl kwb">&lt;-</span> <span class="hl kwa">function</span><span class="hl std">(</span><span class="hl kwc">OpeningHourVector</span><span class="hl std">) {</span>
+    <span class="hl kwa">if</span> <span class="hl std">(</span><span class="hl kwd">is.na</span><span class="hl std">(OpeningHourVector)</span> <span class="hl opt">|</span>
+        <span class="hl opt">!</span><span class="hl kwd">is.character</span><span class="hl std">((OpeningHourVector))</span> <span class="hl opt">|</span>
+        <span class="hl kwd">nchar</span><span class="hl std">(OpeningHourVector)</span> <span class="hl opt">!=</span> <span class="hl num">21</span>
+    <span class="hl std">) {</span>
+        <span class="hl kwd">return</span><span class="hl std">()</span>
+    <span class="hl std">}</span>
+    <span class="hl std">str</span> <span class="hl kwb">&lt;-</span> <span class="hl std">OpeningHourVector</span>
+    <span class="hl std">s</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">sapply</span><span class="hl std">(</span>
+        <span class="hl kwd">seq</span><span class="hl std">(</span>
+            <span class="hl kwc">from</span> <span class="hl std">=</span> <span class="hl num">1</span><span class="hl std">,</span>
+            <span class="hl kwc">to</span> <span class="hl std">=</span> <span class="hl kwd">nchar</span><span class="hl std">(str),</span>
+            <span class="hl kwc">by</span> <span class="hl std">=</span> <span class="hl num">7</span>
+        <span class="hl std">),</span>
+        <span class="hl kwa">function</span><span class="hl std">(</span><span class="hl kwc">i</span><span class="hl std">)</span> <span class="hl kwd">substr</span><span class="hl std">(str, i, i</span> <span class="hl opt">+</span> <span class="hl num">6</span><span class="hl std">)</span>
+    <span class="hl std">)</span>
+    <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">table</span><span class="hl std">(</span>
+        <span class="hl kwc">style</span> <span class="hl std">=</span> <span class="hl str">&quot;width: 100%;&quot;</span><span class="hl std">,</span>
+        <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">tr</span><span class="hl std">(</span>
+            <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">th</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">),</span>
+            <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">th</span><span class="hl std">(</span><span class="hl str">&quot;一&quot;</span><span class="hl std">),</span>
+            <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">th</span><span class="hl std">(</span><span class="hl str">&quot;二&quot;</span><span class="hl std">),</span>
+            <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">th</span><span class="hl std">(</span><span class="hl str">&quot;三&quot;</span><span class="hl std">),</span>
+            <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">th</span><span class="hl std">(</span><span class="hl str">&quot;四&quot;</span><span class="hl std">),</span>
+            <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">th</span><span class="hl std">(</span><span class="hl str">&quot;五&quot;</span><span class="hl std">),</span>
+            <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">th</span><span class="hl std">(</span><span class="hl str">&quot;六&quot;</span><span class="hl std">),</span>
+            <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">th</span><span class="hl std">(</span><span class="hl str">&quot;日&quot;</span><span class="hl std">)</span>
+        <span class="hl std">),</span>
+        <span class="hl kwd">lapply</span><span class="hl std">(</span><span class="hl kwc">X</span> <span class="hl std">=</span> <span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">3</span><span class="hl std">,</span> <span class="hl kwc">FUN</span> <span class="hl std">=</span> <span class="hl kwa">function</span><span class="hl std">(</span><span class="hl kwc">i</span><span class="hl std">) {</span>
+            <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">tr</span><span class="hl std">(</span>
+                <span class="hl kwd">lapply</span><span class="hl std">(</span><span class="hl kwc">X</span> <span class="hl std">=</span> <span class="hl num">0</span><span class="hl opt">:</span><span class="hl num">7</span><span class="hl std">,</span> <span class="hl kwc">FUN</span> <span class="hl std">=</span> <span class="hl kwa">function</span><span class="hl std">(</span><span class="hl kwc">j</span><span class="hl std">) {</span>
+                    <span class="hl com"># split a length 7 string to length 7 vector by character.</span>
+                    <span class="hl std">ss</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">strsplit</span><span class="hl std">(s[i],</span> <span class="hl str">&quot;&quot;</span><span class="hl std">)</span>
+                    <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">td</span><span class="hl std">(</span>
+                        <span class="hl kwa">if</span> <span class="hl std">(j</span> <span class="hl opt">==</span> <span class="hl num">0</span><span class="hl std">) {</span>
+                            <span class="hl kwa">if</span> <span class="hl std">(i</span> <span class="hl opt">==</span> <span class="hl num">1</span> <span class="hl opt">&amp;</span> <span class="hl std">j</span> <span class="hl opt">==</span> <span class="hl num">0</span><span class="hl std">) {</span>
+                                <span class="hl str">&quot;上午&quot;</span>
+                            <span class="hl std">}</span>
+                            <span class="hl kwa">else if</span> <span class="hl std">(i</span> <span class="hl opt">==</span> <span class="hl num">2</span> <span class="hl opt">&amp;</span> <span class="hl std">j</span> <span class="hl opt">==</span> <span class="hl num">0</span><span class="hl std">) {</span>
+                                <span class="hl str">&quot;下午&quot;</span>
+                            <span class="hl std">}</span>
+                            <span class="hl kwa">else if</span> <span class="hl std">(i</span> <span class="hl opt">==</span> <span class="hl num">3</span> <span class="hl opt">&amp;</span> <span class="hl std">j</span> <span class="hl opt">==</span> <span class="hl num">0</span><span class="hl std">) {</span>
+                                <span class="hl str">&quot;晚上&quot;</span>
+                            <span class="hl std">}</span>
+                        <span class="hl std">}</span> <span class="hl kwa">else</span> <span class="hl std">{</span>
+                            <span class="hl kwa">if</span> <span class="hl std">(ss[[</span><span class="hl num">1</span><span class="hl std">]][j]</span> <span class="hl opt">==</span> <span class="hl str">&quot;N&quot;</span><span class="hl std">) {</span>
+                                <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">i</span><span class="hl std">(</span><span class="hl kwc">class</span> <span class="hl std">=</span> <span class="hl str">&quot;fas fa-check-circle&quot;</span><span class="hl std">,</span> <span class="hl kwc">style</span> <span class="hl std">=</span> <span class="hl str">&quot;color: mediumaquamarine;&quot;</span><span class="hl std">)</span>
+                            <span class="hl std">}</span>
+                            <span class="hl kwa">else</span> <span class="hl std">{</span>
+                                <span class="hl std">tags</span><span class="hl opt">$</span><span class="hl kwd">i</span><span class="hl std">(</span><span class="hl kwc">class</span> <span class="hl std">=</span> <span class="hl str">&quot;fas fa-times-circle&quot;</span><span class="hl std">,</span> <span class="hl kwc">style</span> <span class="hl std">=</span> <span class="hl str">&quot;color: tomato;&quot;</span><span class="hl std">)</span>
+                            <span class="hl std">}</span>
+                        <span class="hl std">},</span>
+                        <span class="hl kwc">style</span> <span class="hl std">=</span> <span class="hl str">&quot;padding-top: 4px; padding-bottom: 4px;&quot;</span>
+                    <span class="hl std">)</span>
+                <span class="hl std">})</span>
+            <span class="hl std">)</span>
+        <span class="hl std">})</span>
+    <span class="hl std">)</span>
+<span class="hl std">}</span>
+</pre></div>
+</div></div>
+
+<div class="chunk" id="unnamed-chunk-4"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">genHTMLTable</span><span class="hl std">(</span><span class="hl kwd">paste0</span><span class="hl std">(</span><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl str">&quot;Y&quot;</span><span class="hl std">,</span> <span class="hl num">21</span><span class="hl std">),</span> <span class="hl kwc">collapse</span> <span class="hl std">=</span> <span class="hl str">&quot;&quot;</span><span class="hl std">))</span>
+</pre></div>
+<!--html_preserve--><table style="width: 100%;">
+<tr>
+<th></th>
+<th>一</th>
+<th>二</th>
+<th>三</th>
+<th>四</th>
+<th>五</th>
+<th>六</th>
+<th>日</th>
+</tr>
+<tr>
+<td style="padding-top: 4px; padding-bottom: 4px;">上午</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+</tr>
+<tr>
+<td style="padding-top: 4px; padding-bottom: 4px;">下午</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+</tr>
+<tr>
+<td style="padding-top: 4px; padding-bottom: 4px;">晚上</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+</tr>
+</table><!--/html_preserve--></div></div>
+
+<div class="chunk" id="unnamed-chunk-5"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">genHTMLTable</span><span class="hl std">(</span><span class="hl kwd">paste0</span><span class="hl std">(</span><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl str">&quot;N&quot;</span><span class="hl std">,</span> <span class="hl num">21</span><span class="hl std">),</span> <span class="hl kwc">collapse</span> <span class="hl std">=</span> <span class="hl str">&quot;&quot;</span><span class="hl std">))</span>
+</pre></div>
+<!--html_preserve--><table style="width: 100%;">
+<tr>
+<th></th>
+<th>一</th>
+<th>二</th>
+<th>三</th>
+<th>四</th>
+<th>五</th>
+<th>六</th>
+<th>日</th>
+</tr>
+<tr>
+<td style="padding-top: 4px; padding-bottom: 4px;">上午</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+</tr>
+<tr>
+<td style="padding-top: 4px; padding-bottom: 4px;">下午</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+</tr>
+<tr>
+<td style="padding-top: 4px; padding-bottom: 4px;">晚上</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+</tr>
+</table><!--/html_preserve--></div></div>
+
+<div class="chunk" id="unnamed-chunk-6"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">genHTMLTable</span><span class="hl std">(</span><span class="hl kwd">paste0</span><span class="hl std">(</span><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;Y&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;N&quot;</span><span class="hl std">),</span> <span class="hl kwc">length</span> <span class="hl std">=</span> <span class="hl num">21</span><span class="hl std">),</span> <span class="hl kwc">collapse</span> <span class="hl std">=</span> <span class="hl str">&quot;&quot;</span><span class="hl std">))</span>
+</pre></div>
+<!--html_preserve--><table style="width: 100%;">
+<tr>
+<th></th>
+<th>一</th>
+<th>二</th>
+<th>三</th>
+<th>四</th>
+<th>五</th>
+<th>六</th>
+<th>日</th>
+</tr>
+<tr>
+<td style="padding-top: 4px; padding-bottom: 4px;">上午</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+</tr>
+<tr>
+<td style="padding-top: 4px; padding-bottom: 4px;">下午</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+</tr>
+<tr>
+<td style="padding-top: 4px; padding-bottom: 4px;">晚上</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-check-circle" style="color: mediumaquamarine;"></i>
+</td>
+<td style="padding-top: 4px; padding-bottom: 4px;">
+<i class="fas fa-times-circle" style="color: tomato;"></i>
+</td>
+</tr>
+</table><!--/html_preserve--></div></div>
+
+</body>
+</html>
