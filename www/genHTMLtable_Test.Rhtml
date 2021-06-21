@@ -1,0 +1,95 @@
+<!--begin.rcode
+library(shiny)
+end.rcode-->
+
+
+
+<html lang="en">
+
+<head>
+<title>genHTMLtable Test</title>
+
+<!--begin.rcode
+tags$meta(charset="UTF-8")
+tags$script(src="https://kit.fontawesome.com/5c941e5954.js", crossorigin="anonymous")
+end.rcode-->
+</head>
+
+<body>
+
+<!--begin.rcode
+genHTMLTable <- function(OpeningHourVector) {
+    if (is.na(OpeningHourVector) |
+        !is.character((OpeningHourVector)) |
+        nchar(OpeningHourVector) != 21
+    ) {
+        return()
+    }
+    str <- OpeningHourVector
+    s <- sapply(
+        seq(
+            from = 1,
+            to = nchar(str),
+            by = 7
+        ),
+        function(i) substr(str, i, i + 6)
+    )
+    tags$table(
+        style = "width: 100%;",
+        tags$tr(
+            tags$th(""),
+            tags$th("一"),
+            tags$th("二"),
+            tags$th("三"),
+            tags$th("四"),
+            tags$th("五"),
+            tags$th("六"),
+            tags$th("日")
+        ),
+        lapply(X = 1:3, FUN = function(i) {
+            tags$tr(
+                lapply(X = 0:7, FUN = function(j) {
+                    # split a length 7 string to length 7 vector by character.
+                    ss <- strsplit(s[i], "")
+                    tags$td(
+                        if (j == 0) {
+                            if (i == 1 & j == 0) {
+                                "上午"
+                            }
+                            else if (i == 2 & j == 0) {
+                                "下午"
+                            }
+                            else if (i == 3 & j == 0) {
+                                "晚上"
+                            }
+                        } else {
+                            if (ss[[1]][j] == "N") {
+                                tags$i(class = "fas fa-check-circle", style = "color: mediumaquamarine;")
+                            }
+                            else {
+                                tags$i(class = "fas fa-times-circle", style = "color: tomato;")
+                            }
+                        },
+                        style = "padding-top: 4px; padding-bottom: 4px;"
+                    )
+                })
+            )
+        })
+    )
+}
+end.rcode-->
+
+<!--begin.rcode
+genHTMLTable(paste0(rep("Y", 21), collapse = ""))
+end.rcode-->
+
+<!--begin.rcode
+genHTMLTable(paste0(rep("N", 21), collapse = ""))
+end.rcode-->
+
+<!--begin.rcode
+genHTMLTable(paste0(rep(c("Y", "N"), length = 21), collapse = ""))
+end.rcode-->
+
+</body>
+</html>

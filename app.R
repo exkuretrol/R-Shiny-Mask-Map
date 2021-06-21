@@ -56,7 +56,9 @@ ui <- dashboardPage(
                 "#notionDiv {top: 57px; left: 75px; right: 0px; bottom:0px; position: absolute;}",
                 "#notionDiv iframe {width: 100%; height: 100%; border: none;}"
             ),
-            includeHTML("./www/favicon_io/favicon.html")
+            includeHTML("./www/favicon_io/favicon.html"),
+            tags$script("https://unpkg.com/intro.js/minified/intro.min.js"),
+            tags$link(rel = "stylesheet", href = "https://unpkg.com/intro.js/minified/introjs.min.css")
         ),
 
         # custom help buttom
@@ -259,8 +261,9 @@ server <- function(input, output, session) {
                 "最後，使用這個定位按鈕，當你點開地圖上的圖釘時，會多出一個按鈕可以自動開啟 Google Map 規劃路線🎯。",
                 paste0(
                     "以上 👍",
-                    tags$br(), tags$a("Github 原始碼", href = "https://github.com/exkuretrol/R-Shiny-Mask-Map"),
-                    tags$br(), tags$a("Notion.so", href = "https://www.notion.so/a66783b1f1c8449ab7c2b7065967f64d"),
+                    tags$br(),
+                    tags$br(), tags$a("存放於 Github 網站的原始碼", href = "https://github.com/exkuretrol/R-Shiny-Mask-Map"),
+                    tags$br(), tags$a("Notion.so", href = "https://www.notion.so/a66783b1f1c8449ab7c2b7065967f64d"), " -- 更新紀錄都放這!",
                     collapse = ""
                 )
             ),
