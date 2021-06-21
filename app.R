@@ -56,7 +56,9 @@ ui <- dashboardPage(
                 "#notionDiv {top: 57px; left: 75px; right: 0px; bottom:0px; position: absolute;}",
                 "#notionDiv iframe {width: 100%; height: 100%; border: none;}"
             ),
-            includeHTML("./www/favicon_io/favicon.html")
+            includeHTML("./www/favicon_io/favicon.html"),
+            tags$script("https://unpkg.com/intro.js/minified/intro.min.js"),
+            tags$link(rel = "stylesheet", href = "https://unpkg.com/intro.js/minified/introjs.min.css")
         ),
 
         # custom help buttom
