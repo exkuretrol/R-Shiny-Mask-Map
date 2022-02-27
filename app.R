@@ -18,17 +18,18 @@ library(rintrojs)
 # MySQL connection ----
 dotenv::load_dot_env(file = "./.env")
 db_user <- Sys.getenv("db_user")
-db_password <- Sys.getenv("db_password")
+db_pass <- Sys.getenv("db_password")
 db_host <- Sys.getenv("db_host")
 db_port <- as.numeric(Sys.getenv("db_port"))
-db_name <- if (Sys.getenv("db_name") == "") "mask"
+db_name <- if (Sys.getenv("db_name") == "") "mask" else Sys.getenv("db_name")
 
 pool <- dbPool(
-    drv = MariaDB(),
+    drv = RMySQL::MySQL(),
     host = db_host,
     username = db_user,
-    password = db_password,
-    dbname = db_name
+    password = db_pass,
+    dbname = db_name,
+    port = db_port 
 )
 onStop(function() {
     poolClose(pool)
